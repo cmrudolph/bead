@@ -1,0 +1,124 @@
+{
+  "colors": [
+    {
+      "code": "#F64F36",
+      "comment": "Red"
+    },
+    {
+      "code": "#642129",
+      "comment": "Wine Red"
+    },
+    {
+      "code": "#D68318",
+      "comment": "Orange"
+    },
+    {
+      "code": "#DDD336",
+      "comment": "Yellow"
+    },
+    {
+      "code": "#3E2F78",
+      "comment": "Dark Purple"
+    },
+    {
+      "code": "#764E80",
+      "comment": "Medium Purple"
+    },
+    {
+      "code": "#E4807A",
+      "comment": "Peach"
+    },
+    {
+      "code": "#C072A4",
+      "comment": "Light Purple"
+    },
+    {
+      "code": "#67AE74",
+      "comment": "Mediumish Blue"
+    },
+    {
+      "code": "#51D4E1",
+      "comment": "Turquoise"
+    },
+    {
+      "code": "#74CC50",
+      "comment": "Light Green"
+    },
+    {
+      "code": "#49AC5C",
+      "comment": "Medium Green"
+    },
+    {
+      "code": "#48CBAC",
+      "comment": "Jade Green"
+    },
+    {
+      "code": "#0087CC",
+      "comment": "Vibrant Blue"
+    },
+    {
+      "code": "#267A46",
+      "comment": "Dark Green"
+    },
+    {
+      "code": "#62A0BE",
+      "comment": "Light Blue"
+    },
+    {
+      "code": "#2664BC",
+      "comment": "Medium Blue"
+    },
+    {
+      "code": "#063FAD",
+      "comment": "Almost Dark Blue"
+    },
+    {
+      "code": "#091F69",
+      "comment": "Dark Blue"
+    },
+    {
+      "code": "#1F253E",
+      "comment": "Very Dark Blue"
+    },
+    {
+      "code": "#B19E80",
+      "comment": "Light Brown"
+    },
+    {
+      "code": "#715426",
+      "comment": "Medium Brown"
+    },
+    {
+      "code": "#632F19",
+      "comment": "Burnt Brown"
+    },
+    {
+      "code": "#4D3B27",
+      "comment": "Dark Brown"
+    },
+    {
+      "code": "#9EB7CD",
+      "comment": "Light Grey"
+    },
+    {
+      "code": "#7D878A",
+      "comment": "Medium Grey"
+    },
+    {
+      "code": "#495757",
+      "comment": "Dark Grey"
+    },
+    {
+      "code": "#CEDFC6",
+      "comment": "Ivory"
+    },
+    {
+      "code": "#FFFFFF",
+      "comment": "White"
+    },
+    {
+      "code": "#000000",
+      "comment": "Black"
+    }
+  ]
+}
