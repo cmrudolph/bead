@@ -1,6 +1,20 @@
 import json
 
 
+class BeadColor:
+    def __init__(self, name, value):
+        self._name = name
+        self._value = value
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def value(self):
+        return self._value
+
+
 class BeadPalette:
     def __init__(self, colors):
         self._colors = colors
@@ -11,8 +25,9 @@ class BeadPalette:
 
         colors = []
         for c in d["colors"]:
-            hex_code = c["code"]
-            colors.append(hex_code)
+            name = c["name"]
+            value = c["value"]
+            colors.append(BeadColor(name, value))
 
         return BeadPalette(colors)
 
@@ -20,5 +35,5 @@ class BeadPalette:
     def colors(self):
         return self._colors
 
-    def has_color(self, hex_color):
-        return hex_color in self._colors
+    def has_color(self, value):
+        return value in [c.value for c in self._colors]

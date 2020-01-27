@@ -1,100 +1,124 @@
 {
   "colors": [
     {
-      "code": "#ff0000",
-      "comment": "Red"
+      "value": "#F7F7F2",
+      "name": "White",
+      "code": "P01"
     },
     {
-      "code": "#800000",
-      "comment": "Dark Red"
+      "value": "#96989C",
+      "name": "Grey",
+      "code": "P17"
     },
     {
-      "code": "#c35a48",
-      "comment": "Reddish Brown"
+      "value": "#56575C",
+      "name": "Dark Grey",
+      "code": "P92"
     },
     {
-      "code": "#dc8cae",
-      "comment": "Lavender"
+      "value": "#343234",
+      "name": "Black",
+      "code": "P18"
     },
     {
-      "code": "#ff5574",
-      "comment": "Pink"
+      "value": "#EAC49F",
+      "name": "Sand",
+      "code": "P98"
     },
     {
-      "code": "#ff9da7",
-      "comment": "Pinkish"
+      "value": "#A04E3F",
+      "name": "Rust",
+      "code": "P20"
     },
     {
-      "code": "#ff6a00",
-      "comment": "Orange"
+      "value": "#88404F",
+      "name": "Cranapple",
+      "code": "P96"
     },
     {
-      "code": "#f3c247",
-      "comment": "Orange-Yellow"
+      "value": "#9D7153",
+      "name": "Light Brown",
+      "code": "P21"
     },
     {
-      "code": "#ffd800",
-      "comment": "Yellow"
+      "value": "#6C524D",
+      "name": "Brown",
+      "code": "P12"
     },
     {
-      "code": "#22692d",
-      "comment": "Dark Green"
+      "value": "#EDE7BA",
+      "name": "Cream",
+      "code": "P02"
     },
     {
-      "code": "#90c855",
-      "comment": "Light Green"
+      "value": "#F9D737",
+      "name": "Yellow",
+      "code": "P03"
     },
     {
-      "code": "#7c35a3",
-      "comment": "Dark Purple"
+      "value": "#FFB64E",
+      "name": "Cheddar",
+      "code": "P57"
     },
     {
-      "code": "#1c1542",
-      "comment": "Dark Blue"
+      "value": "#FF803E",
+      "name": "Orange",
+      "code": "P04"
     },
     {
-      "code": "#3958b6",
-      "comment": "Medium Blue"
+      "value": "#FF777F",
+      "name": "Salmon",
+      "code": "P203"
     },
     {
-      "code": "#6b96d1",
-      "comment": "Light Blue"
+      "value": "#FF9E8D",
+      "name": "Blush",
+      "code": "P63"
     },
     {
-      "code": "#cbecef",
-      "comment": "Sky Blue"
+      "value": "#E16D9D",
+      "name": "Bubble Gum",
+      "code": "P06"
     },
     {
-      "code": "#f0e090",
-      "comment": "Ivory"
+      "value": "#C43A44",
+      "name": "Red",
+      "code": "P05"
     },
     {
-      "code": "#505050",
-      "comment": "Dark Grey"
+      "value": "#6F5493",
+      "name": "Purple",
+      "code": "P07"
     },
     {
-      "code": "#a0a0a0",
-      "comment": "Light Grey"
+      "value": "#B4D9DF",
+      "name": "Robin's Egg",
+      "code": "P202"
     },
     {
-      "code": "#56391c",
-      "comment": "Dark Brown"
+      "value": "#63A9D6",
+      "name": "Pastel Blue",
+      "code": "P52"
     },
     {
-      "code": "#905f2f",
-      "comment": "Light Brown"
+      "value": "#0066B3",
+      "name": "Cobalt",
+      "code": "P200"
     },
     {
-      "code": "#d6ab82",
-      "comment": "Tan"
+      "value": "#162846",
+      "name": "Midnight",
+      "code": "P201"
     },
     {
-      "code": "#ffffff",
-      "comment": "White"
+      "value": "#77CA4A",
+      "name": "Kiwi Lime",
+      "code": "P61"
     },
     {
-      "code": "#000000",
-      "comment": "Black"
+      "value": "#108355",
+      "name": "Dark Green",
+      "code": "P10"
     }
   ]
 }

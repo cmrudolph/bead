@@ -46,10 +46,11 @@ class Canvas(QtWidgets.QLabel):
 
 
 class QPaletteButton(QtWidgets.QPushButton):
-    def __init__(self, color):
+    def __init__(self, color, name):
         super().__init__()
         self.setFixedSize(QtCore.QSize(PALETTE_BTN_SIZE, PALETTE_BTN_SIZE))
         self.color = color
+        self.setToolTip(f'{name} ({color})')
         self.setStyleSheet("background-color: %s;" % color)
 
 
@@ -75,7 +76,7 @@ class MainWindow(QtWidgets.QMainWindow):
         row = 0
         col = -1
         for i, c in enumerate(palette.colors):
-            b = QPaletteButton(c)
+            b = QPaletteButton(c.value, c.name)
             b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c))
             if col == 1:
                 row += 1
