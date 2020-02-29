@@ -84,10 +84,10 @@ class BeadCanvas():
                 if value is not None:
                     value = value.lower()
 
-                if value == '#ffffff':
+                if value == '#f7f7f2':
                     # WHITE = draw a hollow black circle
                     edge_color = '#000000'
-                    fill_color = '#ffffff'
+                    fill_color = '#f7f7f2'
                 elif value is not None:
                     # OTHER = draw colored circle
                     edge_color = value

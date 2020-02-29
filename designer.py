@@ -77,7 +77,7 @@ class MainWindow(QtWidgets.QMainWindow):
         col = -1
         for i, c in enumerate(palette.colors):
             b = QPaletteButton(c.value, c.name)
-            b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c))
+            b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c.value))
             if col == 1:
                 row += 1
                 col = 0

@@ -16,12 +16,12 @@ def test_rectangles():
 def test_circles():
     f = create_pseudo_file('')
     layout = BeadLayout.create_new(f, 1, 3)
-    layout.set_value(0, 0, '#ffffff')
+    layout.set_value(0, 0, '#F7F7F2')
     layout.set_value(0, 2, '#111111')
     sut = BeadCanvas(layout, 10)
 
     assert len(sut.circles) == 2
-    assert sut.circles[0] == (2, 2, 6, '#000000', '#ffffff')
+    assert sut.circles[0] == (2, 2, 6, '#000000', '#f7f7f2')
     assert sut.circles[1] == (2, 22, 6, '#111111', '#111111')
 
 

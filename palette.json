@@ -26,6 +26,11 @@
       "code": "P98"
     },
     {
+      "value": "#CFA889",
+      "name": "Tan",
+      "code": "P35"
+    },
+    {
       "value": "#A04E3F",
       "name": "Rust",
       "code": "P20"
@@ -114,6 +119,11 @@
       "value": "#77CA4A",
       "name": "Kiwi Lime",
       "code": "P61"
+    },
+    {
+      "value": "#72763E",
+      "name": "Olive",
+      "code": "TBD"
     },
     {
       "value": "#108355",
