@@ -1,0 +1,39 @@
+16  |  Black                |  #343234
+39  |  Dark Gray            |  #56575c
+31  |  Gray                 |  #96989c
+04  |  Light Grey           |  #bec3bf
+22  |  Brown                |  #6c524d
+38  |  Light Brown          |  #9d7153
+01  |  Tan                  |  #cfa889
+21  |  Sand                 |  #eac49f
+05  |  Toasted Marshmallow  |  #f1e5d8
+03  |  Creme                |  #ede7ba
+02  |  White                |  #f7f7f2
+15  |  Cherry               |  #ad3345
+20  |  Rust                 |  #a04e3f
+42  |  Red                  |  #c43a44
+12  |  Tomato               |  #ea4241
+08  |  Salmon               |  #ff777f
+14  |  Flamingo             |  #ffb5be
+34  |  Purple               |  #6f5493
+24  |  Lavender             |  #9582bb
+43  |  Orchid               |  #b56c99
+41  |  Periwinkle           |  #6c88bf
+23  |  Raspberry            |  #ad3c6c
+18  |  Pink                 |  #e65794
+10  |  Rose                 |  #d25d72
+25  |  Bubblegum            |  #e16d9d
+36  |  Midnight             |  #162846
+29  |  Cobalt               |  #0066b3
+11  |  Light Blue           |  #278acb
+09  |  Sky                  |  #54cde3
+30  |  Robin's Egg          |  #b4d9df
+35  |  Dark Green           |  #108355
+17  |  Parrot Green         |  #00968a
+40  |  Light Green          |  #38c7af
+37  |  Olive                |  #72763e
+13  |  Bright Green         |  #54b160
+19  |  Kiwi Lime            |  #77ca4a
+33  |  Prickly Pear         |  #cbd735
+28  |  Yellow               |  #f9d737
+32  |  Cheddar              |  #ffb64e

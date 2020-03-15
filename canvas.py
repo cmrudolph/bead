@@ -1,9 +1,13 @@
 from layout import BeadLayout
 
 
+WHITE_ID = '02'
+
+
 class BeadCanvas():
-    def __init__(self, layout, cell_size):
+    def __init__(self, layout, palette, cell_size):
         self._layout = layout
+        self._palette = palette
         self._cell_size = cell_size
         self._pixel_width = layout.width * cell_size
         self._pixel_height = layout.height * cell_size
@@ -21,7 +25,7 @@ class BeadCanvas():
     def circles(self):
         return self._circles
 
-    def try_set(self, pixel_x, pixel_y, color):
+    def try_set(self, pixel_x, pixel_y, color_id):
         coords = self._calculate_layout_coordinates(pixel_x, pixel_y)
         if coords is None:
             return
@@ -30,7 +34,7 @@ class BeadCanvas():
         # there. If something already lives there, avoid overwriting. This
         # makes it harder to make a mistake (must right click first).
         if self._layout.get_value(coords[0], coords[1]) is None:
-            self._layout.set_value(coords[0], coords[1], color)
+            self._layout.set_value(coords[0], coords[1], color_id)
         self._derive_shapes()
 
     def try_clear(self, pixel_x, pixel_y):
@@ -84,14 +88,16 @@ class BeadCanvas():
                 if value is not None:
                     value = value.lower()
 
-                if value == '#f7f7f2':
+                hex_color = self._palette.hex_value_from_id(value)
+
+                if value == WHITE_ID:
                     # WHITE = draw a hollow black circle
                     edge_color = '#000000'
-                    fill_color = '#f7f7f2'
+                    fill_color = hex_color
                 elif value is not None:
                     # OTHER = draw colored circle
-                    edge_color = value
-                    fill_color = value
+                    edge_color = hex_color
+                    fill_color = hex_color
                 else:
                     # EMPTY = draw pure white (no circle)
                     continue

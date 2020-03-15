@@ -4,10 +4,10 @@ from canvas import BeadCanvas
 
 
 class BeadPixmap(QPixmap):
-    def __init__(self, layout, cell_size):
+    def __init__(self, layout, palette, cell_size):
         self._cell_size = cell_size
         self._layout = layout
-        self._bead_canvas = BeadCanvas(layout, cell_size)
+        self._bead_canvas = BeadCanvas(layout, palette, cell_size)
 
         pixel_width = layout.width * cell_size
         pixel_height = layout.height * cell_size

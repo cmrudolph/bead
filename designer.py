@@ -15,10 +15,11 @@ PALETTE_BTN_SIZE = 20
 
 
 class Canvas(QtWidgets.QLabel):
-    def __init__(self, layout):
+    def __init__(self, layout, palette):
         super().__init__()
 
-        self._bead_canvas = BeadCanvas(layout, CELL_SIZE)
+        self._palette = palette
+        self._bead_canvas = BeadCanvas(layout, palette, CELL_SIZE)
         self._pen_color = QtGui.QColor('#000000')
 
         canvas_width = layout.width * CELL_SIZE
@@ -28,19 +29,20 @@ class Canvas(QtWidgets.QLabel):
         self.setMaximumHeight(canvas_height)
         self._render_from_layout()
 
-    def set_pen_color(self, c):
-        self._pen_color = QtGui.QColor(c)
+    def set_pen_color(self, color_id, color_hex):
+        self._color_id = color_id
+        self._pen_color = QtGui.QColor(color_hex)
 
     def mousePressEvent(self, e):
         if e.button() == Qt.LeftButton:
-            self._bead_canvas.try_set(e.x(), e.y(), self._pen_color.name())
+            self._bead_canvas.try_set(e.x(), e.y(), self._color_id)
         else:
             self._bead_canvas.try_clear(e.x(), e.y())
 
         self._render_from_layout()
 
     def _render_from_layout(self):
-        pixmap = BeadPixmap(self._bead_canvas.layout, CELL_SIZE)
+        pixmap = BeadPixmap(self._bead_canvas.layout, self._palette, CELL_SIZE)
         self.setPixmap(pixmap)
         self.update()
 
@@ -58,7 +60,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, palette, layout):
         super().__init__()
 
-        self.canvas = Canvas(layout)
+        self.canvas = Canvas(layout, palette)
 
         widget = QtWidgets.QWidget()
         hbox = QtWidgets.QHBoxLayout()
@@ -76,8 +78,8 @@ class MainWindow(QtWidgets.QMainWindow):
         row = 0
         col = -1
         for i, c in enumerate(palette.colors):
-            b = QPaletteButton(c.value, c.name)
-            b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c.value))
+            b = QPaletteButton(c.hex_value, c.name)
+            b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c.id, c.hex_value))
             if col == 1:
                 row += 1
                 col = 0
@@ -106,8 +108,8 @@ class Cli():
             self._launch_app(palette, layout)
 
     def _process_palette_file(self, palette_file):
-        raw_json = pathlib.Path(palette_file).read_text()
-        p = BeadPalette.from_json(raw_json)
+        raw_txt = pathlib.Path(palette_file).read_text()
+        p = BeadPalette.from_txt(raw_txt)
         return p
 
     def _launch_app(self, palette, layout):

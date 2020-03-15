@@ -11,6 +11,10 @@ class BeadLayout:
     @staticmethod
     def create_new(file, width, height):
         values = [None] * (width * height)
+        values = []
+        for h in range(height):
+            row_values = [None] * width
+            values.append(row_values)
         layout = BeadLayout(file, width, height, values)
         layout._update_backing_file()
 
@@ -18,11 +22,16 @@ class BeadLayout:
 
     @staticmethod
     def create_from_file(file):
-        content = file.read()
-        d = json.loads(content)
-        width = d['width']
-        height = d['height']
-        values = d['values']
+        lines = [line.strip() for line in file.readlines()]
+        dims = [int(x) for x in lines[0].split('|')]
+        width = dims[0]
+        height = dims[1]
+        values = []
+        for h in range(1, height + 1):
+            row_values = []
+            for v in lines[h].split('|'):
+                row_values.append(None if v == '00' else v)
+            values.append(row_values)
 
         return BeadLayout(file, width, height, values)
 
@@ -38,38 +47,26 @@ class BeadLayout:
     def values(self):
         return self._values
 
-    def set_value(self, x, y, hex_color):
-        _idx = self._compute_idx(x, y)
-        self._values[_idx] = hex_color
+    def set_value(self, x, y, id):
+        self._values[y][x] = id
         self._update_backing_file()
 
     def get_value(self, x, y):
-        _idx = self._compute_idx(x, y)
-        return self._values[_idx]
+        return self._values[y][x]
 
     def clear_value(self, x, y):
-        _idx = self._compute_idx(x, y)
-        self._values[_idx] = None
-        self._update_backing_file()
-
-    def replace_values(self, hex_color_orig, hex_color_new):
-        for i, v in enumerate(self._values):
-            if v == hex_color_orig:
-                self._values[i] = hex_color_new
+        self._values[y][x] = None
         self._update_backing_file()
 
     def _update_backing_file(self):
         self._file.seek(0)
-        self._file.write(self._to_json())
+        self._file.write('\n'.join(self._to_txt_lines()))
         self._file.truncate()
 
-    def _to_json(self):
-        d = dict()
-        d['width'] = self._width
-        d['height'] = self._height
-        d['values'] = self._values
+    def _to_txt_lines(self):
+        lines = []
+        lines.append(f'{self._width}|{self._height}')
+        for row in self._values:
+            lines.append('|'.join(['00' if x is None else x for x in row]))
 
-        return json.dumps(d)
-
-    def _compute_idx(self, x, y):
-        return (y * self._width) + x
+        return lines

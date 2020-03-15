@@ -2,27 +2,33 @@ from palette import BeadPalette, BeadColor
 
 
 def test_colors():
-    c1 = BeadColor('C1', '#aaaaaa')
-    c2 = BeadColor('C2', '#bbbbbb')
+    c1 = BeadColor('01', 'C1', '#aaaaaa')
+    c2 = BeadColor('02', 'C2', '#bbbbbb')
     sut = BeadPalette([c1, c2])
 
     assert sut.colors == [c1, c2]
 
 
-def test_has_color():
-    c1 = BeadColor('C1', '#aaaaaa')
-    sut = BeadPalette([c1])
+def test_from_txt():
+    raw = '16  |  Black                |  #343234\n39  |  Dark Gray            |  #56575c'
+    sut = BeadPalette.from_txt(raw)
 
-    assert sut.has_color('#aaaaaa') is True
-    assert sut.has_color('#bbbbbb') is False
+    assert [c.id for c in sut.colors] == ['16', '39']
+    assert [c.name for c in sut.colors] == ['Black', 'Dark Gray']
+    assert [c.hex_value for c in sut.colors] == ['#343234', '#56575c']
 
 
-def test_from_json():
-    raw = (
-        '{"colors":[{"value":"#aaaaaa","name":"C1"},{"value":"#bbbbbb"'
-        ',"name": "C2"}]}')
-    sut = BeadPalette.from_json(raw)
+def test_id_from_hex_value():
+    raw = '16  |  Black                |  #343234\n39  |  Dark Gray            |  #56575c'
+    sut = BeadPalette.from_txt(raw)
 
-    c1 = BeadColor('C1', '#aaaaaa')
-    c2 = BeadColor('C2', '#bbbbbb')
-    assert [c.value for c in sut.colors] == ['#aaaaaa', '#bbbbbb']
+    assert sut.id_from_hex_value('#343234') == '16'
+    assert sut.id_from_hex_value('#123123') == None
+
+
+def test_hex_value_from_id():
+    raw = '16  |  Black                |  #343234\n39  |  Dark Gray            |  #56575c'
+    sut = BeadPalette.from_txt(raw)
+
+    assert sut.hex_value_from_id('16') == '#343234'
+    assert sut.hex_value_from_id('888') == None
