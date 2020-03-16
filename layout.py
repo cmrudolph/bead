@@ -1,6 +1,9 @@
 import json
 
 
+NONE_CODE = '---'
+
+
 class BeadLayout:
     def __init__(self, file, width, height, values):
         self._file = file
@@ -21,8 +24,8 @@ class BeadLayout:
         return layout
 
     @staticmethod
-    def create_from_file(file):
-        lines = [line.strip() for line in file.readlines()]
+    def load_from_file(fp):
+        lines = [line.strip() for line in fp.readlines()]
         dims = [int(x) for x in lines[0].split('|')]
         width = dims[0]
         height = dims[1]
@@ -30,10 +33,10 @@ class BeadLayout:
         for h in range(1, height + 1):
             row_values = []
             for v in lines[h].split('|'):
-                row_values.append(None if v == '00' else v)
+                row_values.append(None if v == NONE_CODE else v)
             values.append(row_values)
 
-        return BeadLayout(file, width, height, values)
+        return BeadLayout(fp, width, height, values)
 
     @property
     def width(self):
@@ -67,6 +70,6 @@ class BeadLayout:
         lines = []
         lines.append(f'{self._width}|{self._height}')
         for row in self._values:
-            lines.append('|'.join(['00' if x is None else x for x in row]))
+            lines.append('|'.join([NONE_CODE if x is None else x for x in row]))
 
         return lines

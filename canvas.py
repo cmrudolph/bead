@@ -1,9 +1,6 @@
 from layout import BeadLayout
 
 
-WHITE_ID = '02'
-
-
 class BeadCanvas():
     def __init__(self, layout, palette, cell_size):
         self._layout = layout
@@ -85,22 +82,19 @@ class BeadCanvas():
         for i in range(self._layout.width):
             for j in range(self._layout.height):
                 value = self._layout.get_value(i, j)
-                if value is not None:
-                    value = value.lower()
+                color = self._palette.color_from_code(value)
 
-                hex_color = self._palette.hex_value_from_id(value)
-
-                if value == WHITE_ID:
-                    # WHITE = draw a hollow black circle
-                    edge_color = '#000000'
-                    fill_color = hex_color
-                elif value is not None:
-                    # OTHER = draw colored circle
-                    edge_color = hex_color
-                    fill_color = hex_color
-                else:
+                if color is None:
                     # EMPTY = draw pure white (no circle)
                     continue
+                elif color.is_white():
+                    # WHITE = draw a hollow black circle
+                    edge_color = '#000000'
+                    fill_color = color.hex_value
+                else:
+                    # OTHER = draw colored circle
+                    edge_color = color.hex_value
+                    fill_color = color.hex_value
 
                 # Include an offset + some padding so the circles do not go
                 # all the way to the grid edges (breathing room)

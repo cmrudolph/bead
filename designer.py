@@ -20,7 +20,6 @@ class Canvas(QtWidgets.QLabel):
 
         self._palette = palette
         self._bead_canvas = BeadCanvas(layout, palette, CELL_SIZE)
-        self._pen_color = QtGui.QColor('#000000')
 
         canvas_width = layout.width * CELL_SIZE
         canvas_height = layout.height * CELL_SIZE
@@ -29,13 +28,12 @@ class Canvas(QtWidgets.QLabel):
         self.setMaximumHeight(canvas_height)
         self._render_from_layout()
 
-    def set_pen_color(self, color_id, color_hex):
-        self._color_id = color_id
-        self._pen_color = QtGui.QColor(color_hex)
+    def set_color(self, color):
+        self._color = color
 
     def mousePressEvent(self, e):
         if e.button() == Qt.LeftButton:
-            self._bead_canvas.try_set(e.x(), e.y(), self._color_id)
+            self._bead_canvas.try_set(e.x(), e.y(), self._color.code)
         else:
             self._bead_canvas.try_clear(e.x(), e.y())
 
@@ -79,7 +77,7 @@ class MainWindow(QtWidgets.QMainWindow):
         col = -1
         for i, c in enumerate(palette.colors):
             b = QPaletteButton(c.hex_value, c.name)
-            b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c.id, c.hex_value))
+            b.pressed.connect(lambda c=c: self.canvas.set_color(c))
             if col == 1:
                 row += 1
                 col = 0
@@ -108,8 +106,8 @@ class Cli():
             self._launch_app(palette, layout)
 
     def _process_palette_file(self, palette_file):
-        raw_txt = pathlib.Path(palette_file).read_text()
-        p = BeadPalette.from_txt(raw_txt)
+        with open(palette_file, 'r') as f:
+            p = BeadPalette.load_from_file(f)
         return p
 
     def _launch_app(self, palette, layout):
