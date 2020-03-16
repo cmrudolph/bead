@@ -102,7 +102,7 @@ class Cli():
     def load(self, palette_file, layout_file):
         palette = self._process_palette_file(palette_file)
         with open(layout_file, 'r+') as f:
-            layout = BeadLayout.create_from_file(f)
+            layout = BeadLayout.load_from_file(f)
             self._launch_app(palette, layout)
 
     def _process_palette_file(self, palette_file):

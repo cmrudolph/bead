@@ -35,13 +35,13 @@ class BeadColor:
 class BeadPalette:
     def __init__(self, colors):
         self._colors = colors
-        self._code_to_hex = dict()
-        self._hex_to_code = dict()
+        self._by_code_lookup = dict()
+        self._by_hex_value_lookup = dict()
 
         for c in colors:
             print(f'Palette Color: {c}')
-            self._code_to_hex[c.code] = c
-            self._hex_to_code[c.hex_value] = c
+            self._by_code_lookup[c.code] = c
+            self._by_hex_value_lookup[c.hex_value] = c
 
     @staticmethod
     def load_from_file(fp):
@@ -67,7 +67,7 @@ class BeadPalette:
         return self._colors
 
     def color_from_hex_value(self, hex_value):
-        return self._hex_to_code.get(hex_value.lower(), None)
+        return self._by_hex_value_lookup.get(hex_value.lower(), None)
 
     def color_from_code(self, code):
-        return self._code_to_hex.get(code, None)
+        return self._by_code_lookup.get(code, None)
