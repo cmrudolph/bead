@@ -1,8 +1,11 @@
 import fire
 import os
+import pathlib
 import sys
-from lib import BeadLayout, BeadPalette, BeadPixmap
+from layout import BeadLayout
+from palette import BeadPalette
 from PyQt5.QtWidgets import QApplication
+from qt_helper import BeadPixmap
 
 
 class Cli():
