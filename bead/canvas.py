@@ -1,4 +1,4 @@
-from layout import BeadLayout
+from .layout import BeadLayout
 
 
 class BeadCanvas():

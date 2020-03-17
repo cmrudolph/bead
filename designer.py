@@ -2,10 +2,7 @@ import fire
 import pathlib
 import os
 import sys
-from canvas import BeadCanvas
-from layout import BeadLayout
-from palette import BeadPalette
-from qt_helper import BeadPixmap
+from bead import BeadCanvas, BeadLayout, BeadPalette, BeadPixmap
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication

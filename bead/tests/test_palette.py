@@ -1,5 +1,5 @@
+from bead import BeadPalette, BeadColor
 from io import StringIO
-from palette import BeadPalette, BeadColor
 
 
 def test_load_from_txt():

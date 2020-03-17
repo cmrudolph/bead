@@ -1,4 +1,4 @@
-from layout import BeadLayout
+from bead import BeadLayout
 from io import StringIO
 
 

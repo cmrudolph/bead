@@ -1,4 +1,4 @@
-from palette import BeadColor
+from bead import BeadColor
 
 
 def test_id():

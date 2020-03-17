@@ -1,6 +1,4 @@
-from canvas import BeadCanvas
-from layout import BeadLayout
-from palette import BeadColor, BeadPalette
+from bead import BeadCanvas, BeadColor, BeadLayout, BeadPalette
 from io import StringIO
 
 

@@ -1,6 +1,6 @@
+from .canvas import BeadCanvas
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPen, QBrush, QPixmap
-from canvas import BeadCanvas
 
 
 class BeadPixmap(QPixmap):
