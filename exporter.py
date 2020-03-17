@@ -1,18 +1,14 @@
 import fire
 import os
-import pathlib
 import sys
 from bead import BeadLayout, BeadPalette, BeadPixmap
 from PyQt5.QtWidgets import QApplication
 
 
 class Cli():
-    def export(self, layout_file, palette_file, image_file, cell_size, force=False):
+    def export(self, palette_file, layout_file, image_file, cell_size):
         if os.path.exists(image_file):
-            if force:
-                os.remove(image_file)
-            else:
-                raise Exception('Image file already exists!')
+            os.remove(image_file)
 
         with open(layout_file, 'r+') as f:
             layout = BeadLayout.load_from_file(f)
@@ -25,6 +21,7 @@ class Cli():
         with open(palette_file, 'r') as f:
             p = BeadPalette.load_from_file(f)
         return p
+
 
 if __name__ == "__main__":
     fire.Fire(Cli)

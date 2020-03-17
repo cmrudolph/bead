@@ -1,5 +1,4 @@
 import fire
-import pathlib
 import os
 import sys
 from bead import BeadCanvas, BeadLayout, BeadPalette, BeadPixmap

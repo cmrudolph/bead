@@ -18,16 +18,17 @@ def test_hex_value():
 
 
 def test_repr():
-    assert create_sut().__repr__() == "BeadColor('01', 'BLK', 'BlaCK', '#1a2b3c')"
+    val = create_sut().__repr__()
+    assert val == "BeadColor('01', 'BLK', 'BlaCK', '#1a2b3c')"
 
 
 def test_is_white():
     # Variant casing
-    assert BeadColor('01', 'WHT', 'White', '#f7f7f2').is_white() == True
-    assert BeadColor('01', 'wht', 'white', '#f7f7f2').is_white() == True
+    assert BeadColor('01', 'WHT', 'White', '#f7f7f2').is_white() is True
+    assert BeadColor('01', 'wht', 'white', '#f7f7f2').is_white() is True
 
     # Wrong code
-    assert BeadColor('01', 'QUE', 'White', '#f7f7f2').is_white() == False
+    assert BeadColor('01', 'QUE', 'White', '#f7f7f2').is_white() is False
 
 
 def create_sut():

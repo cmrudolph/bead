@@ -39,14 +39,14 @@ def test_code_from_hex_value():
 
     assert sut.color_from_hex_value('#a1B2c3').code == 'RED'
     assert sut.color_from_hex_value('#A1B2C3').code == 'RED'
-    assert sut.color_from_hex_value('#ffffff') == None
+    assert sut.color_from_hex_value('#ffffff') is None
 
 
 def test_hex_value_from_code():
     sut = create_sut()
 
     assert sut.color_from_code('RED').hex_value == '#a1b2c3'
-    assert sut.color_from_code('YEL') == None
+    assert sut.color_from_code('YEL') is None
 
 
 def create_sut():

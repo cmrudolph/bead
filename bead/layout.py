@@ -67,6 +67,7 @@ class BeadLayout:
         lines = []
         lines.append(f'{self._width}|{self._height}')
         for row in self._values:
-            lines.append('|'.join([NONE_CODE if x is None else x for x in row]))
+            s = '|'.join([NONE_CODE if x is None else x for x in row])
+            lines.append(s)
 
         return lines
