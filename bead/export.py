@@ -29,17 +29,10 @@ def export_layout(palette_path, layout_path, output_path, cell_size):
 
 def _render_grid(draw, canvas):
     for r in canvas.rectangles:
-        xy1 = (r[0], r[1])
-        xy2 = (r[0] + r[2], r[1] + r[3])
-
-        draw.rectangle((xy1, xy2), outline='black')
+        draw.rectangle((r.topleft, r.bottomright), outline='black')
 
 
 def _render_beads(draw, canvas):
     for c in canvas.circles:
-        xy1 = (c[0], c[1])
-        xy2 = (c[0] + c[2], c[1] + c[2])
-        edge_color = ImageColor.getrgb(c[3])
-        fill_color = ImageColor.getrgb(c[4])
-
-        draw.ellipse((xy1, xy2), fill=fill_color, outline=edge_color, width=2)
+        coords = (c.topleft, c.bottomright)
+        draw.ellipse(coords, fill=c.fill_color, outline=c.edge_color, width=2)

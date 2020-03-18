@@ -22,7 +22,9 @@ class BeadPixmap(QPixmap):
         painter.setPen(QPen(Qt.black, 1))
 
         for r in self._bead_canvas.rectangles:
-            painter.drawRect(r[0], r[1], r[2], r[3])
+            x = r.topleft[0]
+            y = r.topleft[1]
+            painter.drawRect(x, y, r.width, r.height)
         painter.end()
 
     def _render_beads(self):
@@ -30,10 +32,12 @@ class BeadPixmap(QPixmap):
         painter.setPen(QPen(Qt.black, 1))
 
         for c in self._bead_canvas.circles:
-            painter.setPen(QPen(QColor(c[3])))
+            painter.setPen(QPen(QColor(c.edge_color)))
             brush = QBrush()
-            brush.setColor(QColor(c[4]))
+            brush.setColor(QColor(c.fill_color))
             brush.setStyle(Qt.SolidPattern)
             painter.setBrush(brush)
-            painter.drawEllipse(c[0], c[1], c[2], c[2])
+            x = c.topleft[0]
+            y = c.topleft[1]
+            painter.drawEllipse(x, y, c.diameter, c.diameter)
         painter.end()

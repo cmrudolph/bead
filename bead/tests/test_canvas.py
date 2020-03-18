@@ -8,8 +8,18 @@ def test_rectangles():
     sut = create_sut(layout, 4)
 
     assert len(sut.rectangles) == 2
-    assert sut.rectangles[0] == (0, 0, 3, 4)
-    assert sut.rectangles[1] == (0, 4, 3, 3)
+
+    r1 = sut.rectangles[0]
+    assert r1.topleft == (0, 0)
+    assert r1.bottomright == (3, 4)
+    assert r1.width == 3
+    assert r1.height == 4
+
+    r2 = sut.rectangles[1]
+    assert r2.topleft == (0, 4)
+    assert r2.bottomright == (3, 7)
+    assert r2.width == 3
+    assert r2.height == 3
 
 
 def test_circles():
@@ -20,8 +30,20 @@ def test_circles():
     sut = create_sut(layout, 10)
 
     assert len(sut.circles) == 2
-    assert sut.circles[0] == (2, 2, 6, '#aaaaaa', '#aaaaaa')
-    assert sut.circles[1] == (2, 22, 6, '#bbbbbb', '#bbbbbb')
+
+    c1 = sut.circles[0]
+    assert c1.topleft == (2, 2)
+    assert c1.bottomright == (8, 8)
+    assert c1.diameter == 6
+    assert c1.fill_color == '#aaaaaa'
+    assert c1.edge_color == '#aaaaaa'
+
+    c2 = sut.circles[1]
+    assert c2.topleft == (2, 22)
+    assert c2.bottomright == (8, 28)
+    assert c2.diameter == 6
+    assert c2.fill_color == '#bbbbbb'
+    assert c2.edge_color == '#bbbbbb'
 
 
 def test_circles_white():
@@ -31,9 +53,13 @@ def test_circles_white():
     layout.set_value(0, 2, 'WHT')
     sut = create_sut(layout, 10)
 
-    assert len(sut.circles) == 2
-    assert sut.circles[0] == (2, 2, 6, '#000000', '#cccccc')
-    assert sut.circles[1] == (2, 22, 6, '#000000', '#cccccc')
+    c1 = sut.circles[0]
+    assert c1.fill_color == '#cccccc'
+    assert c1.edge_color == '#000000'
+
+    c2 = sut.circles[1]
+    assert c2.fill_color == '#cccccc'
+    assert c2.edge_color == '#000000'
 
 
 def test_try_set_edge():
@@ -55,7 +81,10 @@ def test_try_set_valid():
     sut.try_set(1, 1, 'RED')
 
     assert len(sut.circles) == 1
-    assert sut.circles[0] == (2, 2, 6, '#aaaaaa', '#aaaaaa')
+
+    c1 = sut.circles[0]
+    assert c1.fill_color == '#aaaaaa'
+    assert c1.edge_color == '#aaaaaa'
 
 
 def test_try_set_overwrite():
@@ -67,7 +96,10 @@ def test_try_set_overwrite():
     sut.try_set(1, 1, 'WHT')
 
     assert len(sut.circles) == 1
-    assert sut.circles[0] == (2, 2, 6, '#aaaaaa', '#aaaaaa')
+
+    c1 = sut.circles[0]
+    assert c1.fill_color == '#aaaaaa'
+    assert c1.edge_color == '#aaaaaa'
 
 
 def test_try_clear_edge():
@@ -79,7 +111,10 @@ def test_try_clear_edge():
     sut.try_clear(1, 0)
 
     assert len(sut.circles) == 1
-    assert sut.circles[0] == (2, 2, 6, '#aaaaaa', '#aaaaaa')
+
+    c1 = sut.circles[0]
+    assert c1.fill_color == '#aaaaaa'
+    assert c1.edge_color == '#aaaaaa'
 
 
 def test_try_clear_valid():
