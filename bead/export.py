@@ -5,9 +5,9 @@ from .palette import BeadPalette
 from PIL import Image, ImageDraw, ImageColor
 
 
-def export_layout(palette_path, layout_path, output_path, cell_size):
-    if os.path.exists(output_path):
-        os.remove(output_path)
+def export_layout(palette_path, layout_path, image_path, cell_size):
+    if os.path.exists(image_path):
+        os.remove(image_path)
 
     with open(layout_path, 'r') as layout_f:
         with open(palette_path, 'r') as palette_f:
@@ -24,7 +24,7 @@ def export_layout(palette_path, layout_path, output_path, cell_size):
             _render_grid(draw, canvas)
             _render_beads(draw, canvas)
 
-            img.save(output_path, 'PNG')
+            img.save(image_path, 'PNG')
 
 
 def _render_grid(draw, canvas):
