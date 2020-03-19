@@ -1,4 +1,7 @@
 from .color import BeadColor
+from colormath.color_objects import sRGBColor, LabColor
+from colormath.color_conversions import convert_color
+from colormath.color_diff import delta_e_cie2000
 
 
 class BeadPalette:
@@ -6,11 +9,18 @@ class BeadPalette:
         self._colors = colors
         self._by_code_lookup = dict()
         self._by_hex_value_lookup = dict()
+        self._by_lab_lookup = dict()
 
         for c in colors:
             print(f'Palette Color: {c}')
             self._by_code_lookup[c.code] = c
             self._by_hex_value_lookup[c.hex_value] = c
+
+            # Compute and store each CIELab color because we will need these
+            # for doing color comparisons later
+            rgb = sRGBColor.new_from_rgb_hex(c.hex_value)
+            lab = convert_color(rgb, LabColor)
+            self._by_lab_lookup[lab] = c
 
     @staticmethod
     def load_from_file(fp):
@@ -40,3 +50,17 @@ class BeadPalette:
 
     def color_from_code(self, code):
         return self._by_code_lookup.get(code, None)
+
+    def closest_color(self, r, g, b):
+        rgb = sRGBColor(r, g, b, is_upscaled=True)
+        lab = convert_color(rgb, LabColor)
+
+        best = None
+        best_diff = 101
+        for palette_lab in self._by_lab_lookup:
+            diff = delta_e_cie2000(lab, palette_lab)
+            if diff < best_diff:
+                best_diff = diff
+                best = palette_lab
+
+        return self._by_lab_lookup[best]
