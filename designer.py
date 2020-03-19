@@ -1,7 +1,7 @@
 import fire
 import os
 import sys
-from bead import BeadCanvas, BeadLayout, BeadPalette, BeadPixmap
+from bead import BeadCanvas, BeadLayout, BeadPalette
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPen, QBrush, QPixmap

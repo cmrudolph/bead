@@ -12,7 +12,6 @@ class BeadPalette:
         self._by_lab_lookup = dict()
 
         for c in colors:
-            print(f'Palette Color: {c}')
             self._by_code_lookup[c.code] = c
             self._by_hex_value_lookup[c.hex_value] = c
 
