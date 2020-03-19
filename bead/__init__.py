@@ -4,3 +4,4 @@ from .export import export_layout
 from .generate import generate_layout
 from .layout import BeadLayout
 from .palette import BeadPalette
+from .properties import BeadProperties
