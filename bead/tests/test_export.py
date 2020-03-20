@@ -13,7 +13,7 @@ def test_export(tmpdir):
     shutil.copytree(source_dir, tmpdir.join('test_export1'))
 
     project = Project(tmpdir, 'test_export1')
-    baseline_path = os.path.join(BASELINES_DIR, 'test_export1.final.png')
+    baseline_path = os.path.join(BASELINES_DIR, 'test_export1_final.png')
 
     export_layout(project)
     assert filecmp.cmp(baseline_path, project.final_path) is True

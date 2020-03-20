@@ -9,7 +9,11 @@ CELL_SIZE = 30
 
 
 def export_layout(project):
-    print(f'Exporting project -- Name:{project.name}')
+    print(f'Exporting layout -- Name:{project.name}')
+
+    if not os.path.exists(project.layout_path):
+        raise ValueError(f'File missing -- Path:{project.layout_path}')
+
     with open(project.layout_path, 'r') as layout_f:
         layout = Layout.load_from_file(layout_f)
         print(f'Dimensions -- W:{layout.width}; H:{layout.height}')
