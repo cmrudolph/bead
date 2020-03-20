@@ -1,6 +1,6 @@
 import json
 import pytest
-from bead import BeadProperties
+from bead import Properties
 from io import StringIO
 
 
@@ -8,19 +8,19 @@ Txt = '{"width":29,"height":26,"quantize_colors":20,"colors":["A", "B"]}'
 
 
 def test_load_from_json():
-    sut = BeadProperties.load_from_json(Txt)
+    sut = Properties.load_from_json(Txt)
     _assert_common(sut)
 
 
 def test_load_from_file():
     f = _create_pseudo_file(Txt)
-    sut = BeadProperties.load_from_file(f)
+    sut = Properties.load_from_file(f)
     _assert_common(sut)
 
 
 def test_load_from_dict():
     d = json.loads(Txt)
-    sut = BeadProperties.load_from_dict(d)
+    sut = Properties.load_from_dict(d)
     _assert_common(sut)
 
 

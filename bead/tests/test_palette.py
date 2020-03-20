@@ -1,5 +1,5 @@
 import pytest
-from bead import BeadPalette, BeadColor
+from bead import Palette, Color
 from io import StringIO
 
 
@@ -26,7 +26,7 @@ comparison_cases = [
 def test_load_from_txt():
     raw = ('02  |  RED  |  Radical Red  |  #a1B2c3\n\n'
            '01  |  BLU  |  Beautiful Blue  |  #F9e8D7\n\n')
-    sut = BeadPalette.load_from_txt(raw)
+    sut = Palette.load_from_txt(raw)
 
     assert [c.id for c in sut.colors] == ['02', '01']
     assert [c.code for c in sut.colors] == ['RED', 'BLU']
@@ -38,7 +38,7 @@ def test_load_from_file():
     raw = ('02  |  RED  |  Radical Red  |  #a1B2c3\n\n'
            '01  |  BLU  |  Beautiful Blue  |  #F9e8D7\n\n')
     f = create_pseudo_file(raw)
-    sut = BeadPalette.load_from_file(f)
+    sut = Palette.load_from_file(f)
 
     assert [c.id for c in sut.colors] == ['02', '01']
     assert [c.code for c in sut.colors] == ['RED', 'BLU']
@@ -79,12 +79,12 @@ def test_closest_color(hex, expected_code):
 
 
 def create_sut():
-    black = BeadColor('16', 'BLK', 'Black', '#343234')
-    white = BeadColor('02', 'WHT', 'White', '#f7f7f2')
-    red = BeadColor('42', 'RED', 'Red', '#c43a44')
-    green = BeadColor('17', 'PGR', 'Parrot Green', '#00968a')
-    blue = BeadColor('29', 'CBT', 'Cobalt', '#0066b3')
-    return BeadPalette([black, white, red, green, blue])
+    black = Color('16', 'BLK', 'Black', '#343234')
+    white = Color('02', 'WHT', 'White', '#f7f7f2')
+    red = Color('42', 'RED', 'Red', '#c43a44')
+    green = Color('17', 'PGR', 'Parrot Green', '#00968a')
+    blue = Color('29', 'CBT', 'Cobalt', '#0066b3')
+    return Palette([black, white, red, green, blue])
 
 
 def create_pseudo_file(raw_txt):

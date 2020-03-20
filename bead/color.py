@@ -1,4 +1,4 @@
-class BeadColor:
+class Color:
     def __init__(self, id, code, name, hex_value):
         self._id = id
         self._code = code.upper()
@@ -6,7 +6,7 @@ class BeadColor:
         self._hex_value = hex_value.lower()
 
     def __repr__(self):
-        return (f"BeadColor('{self._id}', '{self.code}', '{self.name}', "
+        return (f"Color('{self._id}', '{self.code}', '{self.name}', "
                 f"'{self.hex_value}')")
 
     @property

@@ -1,7 +1,7 @@
 import os
-from .canvas import BeadCanvas
-from .layout import BeadLayout
-from .palette import BeadPalette
+from .canvas import Canvas
+from .layout import Layout
+from .palette import Palette
 from PIL import Image, ImageDraw, ImageColor
 
 
@@ -11,10 +11,10 @@ def export_layout(palette_path, layout_path, image_path, cell_size):
 
     with open(layout_path, 'r') as layout_f:
         with open(palette_path, 'r') as palette_f:
-            layout = BeadLayout.load_from_file(layout_f)
-            palette = BeadPalette.load_from_file(palette_f)
+            layout = Layout.load_from_file(layout_f)
+            palette = Palette.load_from_file(palette_f)
 
-            canvas = BeadCanvas(layout, palette, cell_size)
+            canvas = Canvas(layout, palette, cell_size)
             w = layout.width * cell_size
             h = layout.height * cell_size
 

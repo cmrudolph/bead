@@ -1,7 +1,7 @@
 import json
 
 
-class BeadProperties:
+class Properties:
     def __init__(self, d):
         self._width = int(d['width'])
         self._height = int(d['height'])
@@ -9,18 +9,18 @@ class BeadProperties:
         self._colors = d['colors']
 
     @staticmethod
-    def load_from_file(fp):
-        json_txt = fp.read()
-        return BeadProperties.load_from_json(json_txt)
-
-    @staticmethod
     def load_from_json(json_txt):
         json_dict = json.loads(json_txt)
-        return BeadProperties.load_from_dict(json_dict)
+        return Properties.load_from_dict(json_dict)
+
+    @staticmethod
+    def load_from_file(fp):
+        json_txt = fp.read()
+        return Properties.load_from_json(json_txt)
 
     @staticmethod
     def load_from_dict(d):
-        return BeadProperties(d)
+        return Properties(d)
 
     @property
     def width(self):

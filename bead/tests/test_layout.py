@@ -1,10 +1,10 @@
-from bead import BeadLayout
+from bead import Layout
 from io import StringIO
 
 
 def test_create_new():
     f = create_pseudo_file('')
-    sut = BeadLayout.create_new(f, 3, 2)
+    sut = Layout.create_new(f, 3, 2)
 
     assert sut.width == 3
     assert sut.height == 2
@@ -16,7 +16,7 @@ def test_create_new():
 def test_create_from_file_none():
     s = '1|1\n---'
     f = create_pseudo_file(s)
-    sut = BeadLayout.load_from_file(f)
+    sut = Layout.load_from_file(f)
 
     verify_result(sut, f, 1, 1, [[None]])
 
@@ -24,7 +24,7 @@ def test_create_from_file_none():
 def test_create_from_file_not_none():
     s = '1|1\nRED'
     f = create_pseudo_file(s)
-    sut = BeadLayout.load_from_file(f)
+    sut = Layout.load_from_file(f)
 
     verify_result(sut, f, 1, 1, [['RED']])
 
@@ -32,7 +32,7 @@ def test_create_from_file_not_none():
 def test_create_from_file_wide():
     s = '2|1\n---|RED'
     f = create_pseudo_file(s)
-    sut = BeadLayout.load_from_file(f)
+    sut = Layout.load_from_file(f)
 
     verify_result(sut, f, 2, 1, [[None, 'RED']])
 
@@ -40,14 +40,14 @@ def test_create_from_file_wide():
 def test_create_from_file_tall():
     s = '1|2\n---\nRED'
     f = create_pseudo_file(s)
-    sut = BeadLayout.load_from_file(f)
+    sut = Layout.load_from_file(f)
 
     verify_result(sut, f, 1, 2, [[None], ['RED']])
 
 
 def test_set_value():
     f = create_pseudo_file('')
-    sut = BeadLayout.create_new(f, 1, 2)
+    sut = Layout.create_new(f, 1, 2)
 
     sut.set_value(0, 1, 'BLU')
 
@@ -57,7 +57,7 @@ def test_set_value():
 
 def test_clear_value():
     f = create_pseudo_file('')
-    sut = BeadLayout.create_new(f, 1, 2)
+    sut = Layout.create_new(f, 1, 2)
 
     sut.set_value(0, 1, 'BLU')
     sut.clear_value(0, 1)
@@ -68,7 +68,7 @@ def test_clear_value():
 
 def verify_result(sut, f, width, height, values):
     f.seek(0)
-    actual = BeadLayout.load_from_file(f)
+    actual = Layout.load_from_file(f)
 
     # Verify the state of the object under test
     assert sut.width == width

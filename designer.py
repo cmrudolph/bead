@@ -1,7 +1,7 @@
 import fire
 import os
 import sys
-from bead import BeadCanvas, BeadLayout, BeadPalette
+from bead import Canvas, Layout, Palette
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPen, QBrush, QPixmap
@@ -16,7 +16,7 @@ class BeadPixmap(QPixmap):
     def __init__(self, layout, palette, cell_size):
         self._cell_size = cell_size
         self._layout = layout
-        self._bead_canvas = BeadCanvas(layout, palette, cell_size)
+        self._bead_canvas = Canvas(layout, palette, cell_size)
 
         pixel_width = layout.width * cell_size
         pixel_height = layout.height * cell_size
@@ -57,7 +57,7 @@ class Canvas(QtWidgets.QLabel):
         super().__init__()
 
         self._palette = palette
-        self._bead_canvas = BeadCanvas(layout, palette, CELL_SIZE)
+        self._bead_canvas = Canvas(layout, palette, CELL_SIZE)
 
         canvas_width = layout.width * CELL_SIZE
         canvas_height = layout.height * CELL_SIZE
@@ -134,18 +134,18 @@ class Cli():
 
         palette = self._process_palette_file(palette_file)
         with open(layout_file, 'w+') as f:
-            layout = BeadLayout.create_new(f, width, height)
+            layout = Layout.create_new(f, width, height)
             self._launch_app(palette, layout)
 
     def load(self, palette_file, layout_file):
         palette = self._process_palette_file(palette_file)
         with open(layout_file, 'r+') as f:
-            layout = BeadLayout.load_from_file(f)
+            layout = Layout.load_from_file(f)
             self._launch_app(palette, layout)
 
     def _process_palette_file(self, palette_file):
         with open(palette_file, 'r') as f:
-            p = BeadPalette.load_from_file(f)
+            p = Palette.load_from_file(f)
         return p
 
     def _launch_app(self, palette, layout):

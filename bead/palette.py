@@ -1,10 +1,10 @@
-from .color import BeadColor
+from .color import Color
 from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
 
 
-class BeadPalette:
+class Palette:
     def __init__(self, colors):
         self._colors = colors
         self._by_code_lookup = dict()
@@ -24,7 +24,7 @@ class BeadPalette:
     @staticmethod
     def load_from_file(fp):
         txt = fp.read()
-        return BeadPalette.load_from_txt(txt)
+        return Palette.load_from_txt(txt)
 
     @staticmethod
     def load_from_txt(raw_txt):
@@ -37,8 +37,8 @@ class BeadPalette:
                 code = splits[1]
                 name = splits[2]
                 hex_value = splits[3]
-                colors.append(BeadColor(id, code, name, hex_value))
-        return BeadPalette(colors)
+                colors.append(Color(id, code, name, hex_value))
+        return Palette(colors)
 
     @property
     def colors(self):
