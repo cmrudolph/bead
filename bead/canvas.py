@@ -1,7 +1,7 @@
-from .layout import BeadLayout
+from .layout import Layout
 
 
-class BeadRectangle():
+class Rectangle():
     def __init__(self, x, y, width, height):
         self._topleft = (x, y)
         self._bottomright = (x + width, y + height)
@@ -25,7 +25,7 @@ class BeadRectangle():
         return self._height
 
 
-class BeadCircle():
+class Circle():
     def __init__(self, x, y, diameter, fill_color, edge_color):
         self._topleft = (x, y)
         self._bottomright = (x + diameter, y + diameter)
@@ -54,7 +54,7 @@ class BeadCircle():
         return self._edge_color
 
 
-class BeadCanvas():
+class Canvas():
     def __init__(self, layout, palette, cell_size):
         self._layout = layout
         self._palette = palette
@@ -74,6 +74,14 @@ class BeadCanvas():
     @property
     def circles(self):
         return self._circles
+
+    @property
+    def width(self):
+        return self._pixel_width
+
+    @property
+    def height(self):
+        return self._pixel_height
 
     def try_set(self, pixel_x, pixel_y, color_id):
         coords = self._calculate_layout_coordinates(pixel_x, pixel_y)
@@ -127,7 +135,7 @@ class BeadCanvas():
                 x = i * self._cell_size
                 y = j * self._cell_size
 
-                rect = BeadRectangle(x, y, rect_width, rect_height)
+                rect = Rectangle(x, y, rect_width, rect_height)
                 self._rectangles.append(rect)
 
     def _derive_circles(self):
@@ -155,5 +163,5 @@ class BeadCanvas():
                 y = (j * self._cell_size) + 2
                 diameter = self._cell_size - 4
 
-                circle = BeadCircle(x, y, diameter, fill_color, edge_color)
+                circle = Circle(x, y, diameter, fill_color, edge_color)
                 self._circles.append(circle)

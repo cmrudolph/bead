@@ -1,11 +1,17 @@
 import fire
-from bead import export_layout
+import os
+from bead import Project, export_layout
+
+
+Root = None
 
 
 class Cli():
-    def export(self, palette_path, layout_path, output_path, cell_size):
-        export_layout(palette_path, layout_path, output_path, cell_size)
+    def export(self, project_name):
+        project = Project(Root, project_name)
+        export_layout(project)
 
 
 if __name__ == "__main__":
+    Root = os.getenv('BEADROOT')
     fire.Fire(Cli)

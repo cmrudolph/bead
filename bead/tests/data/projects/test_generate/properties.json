@@ -1,0 +1,9 @@
+{
+  "width": 2,
+  "height": 2,
+  "quantize_colors": 20,
+  "colors": [
+    "A",
+    "B"
+  ]
+}

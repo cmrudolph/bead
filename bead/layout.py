@@ -1,7 +1,7 @@
 NONE_CODE = '---'
 
 
-class BeadLayout:
+class Layout:
     def __init__(self, file, width, height, values):
         self._file = file
         self._width = width
@@ -15,7 +15,7 @@ class BeadLayout:
         for h in range(height):
             row_values = [None] * width
             values.append(row_values)
-        layout = BeadLayout(file, width, height, values)
+        layout = Layout(file, width, height, values)
         layout._update_backing_file()
 
         return layout
@@ -33,7 +33,7 @@ class BeadLayout:
                 row_values.append(None if v == NONE_CODE else v)
             values.append(row_values)
 
-        return BeadLayout(fp, width, height, values)
+        return Layout(fp, width, height, values)
 
     @property
     def width(self):
