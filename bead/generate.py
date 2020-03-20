@@ -33,7 +33,6 @@ def generate_layout(project, force=False):
         cell_height = img.height // height
         cell_height_rem = img.height % height
 
-        best_color_cache = dict()
         for h in range(height):
             for w in range(width):
                 cell_pixels = []
@@ -53,19 +52,20 @@ def generate_layout(project, force=False):
 
                 color_count = Counter()
                 for cp in cell_pixels:
-                    rgb = (cp[0], cp[1], cp[2])
-                    cached = best_color_cache.get(rgb, None)
-                    if img.mode == 'RGBA' and cp[3] == 0:
-                        # Transparent
-                        color_count[None] += 1
-                    elif cached is not None:
-                        # Already know the answer for this RGB value
-                        color_count[cached] += 1
+                    if img.mode == 'RGBA':
+                        # Image has an alpha channel. Need to send all four
+                        # components because transparency matters
+                        vals = (cp[0], cp[1], cp[2], cp[3])
                     else:
-                        # Compute cold and cache result
-                        cell_color = project.palette.closest_color(*rgb)
-                        best_color_cache[rgb] = cell_color.code
-                        color_count[cell_color.code] += 1
+                        # Image has no transparency, so will only report the
+                        # values of RGB with no fourth component
+                        vals = (cp[0], cp[1], cp[2])
+
+                    # Palette handles this efficiently (caching of lookups that
+                    # have already been asked for)
+                    cell_color = project.palette.closest_color(*vals)
+                    code = cell_color.code if cell_color is not None else None
+                    color_count[code] += 1
 
                 best_color = color_count.most_common(1)[0][0]
                 layout.set_value(w, h, best_color)

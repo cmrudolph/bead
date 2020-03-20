@@ -3,7 +3,7 @@ from bead import Palette, Color
 from io import StringIO
 
 
-comparison_cases = [
+closest_color_rgb_cases = [
     ('#000000', 'BLK'),
     ('#242224', 'BLK'),
     ('#343234', 'BLK'),
@@ -68,13 +68,28 @@ def test_hex_value_from_code():
     assert sut.color_from_code('YEL') is None
 
 
-@pytest.mark.parametrize('hex, expected_code', comparison_cases)
-def test_closest_color(hex, expected_code):
+@pytest.mark.parametrize('hex, expected_code', closest_color_rgb_cases)
+def test_closest_color_rgb(hex, expected_code):
     sut = create_sut()
     rgb = hex_to_rgb(hex)
     color = sut.closest_color(rgb[0], rgb[1], rgb[2])
 
     assert color.code == expected_code
+
+
+def test_closest_color_multiple_lookups():
+    sut = create_sut()
+    c1 = sut.closest_color(0, 0, 0)
+    c2 = sut.closest_color(0, 0, 0)
+
+    assert c1 == c2
+
+
+def test_closest_color_transparent():
+    sut = create_sut()
+    c1 = sut.closest_color(0, 0, 0, 0)
+
+    assert c1 is None
 
 
 def create_sut():

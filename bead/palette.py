@@ -10,6 +10,7 @@ class Palette:
         self._by_code_lookup = dict()
         self._by_hex_value_lookup = dict()
         self._by_lab_lookup = dict()
+        self._closest_cache = dict()
 
         for c in colors:
             self._by_code_lookup[c.code] = c
@@ -50,16 +51,30 @@ class Palette:
     def color_from_code(self, code):
         return self._by_code_lookup.get(code, None)
 
-    def closest_color(self, r, g, b):
-        rgb = sRGBColor(r, g, b, is_upscaled=True)
-        lab = convert_color(rgb, LabColor)
+    def closest_color(self, r, g, b, a=255):
+        if a == 0:
+            # Transparent
+            return None
 
-        best = None
-        best_diff = 101
-        for palette_lab in self._by_lab_lookup:
-            diff = delta_e_cie2000(lab, palette_lab)
-            if diff < best_diff:
-                best_diff = diff
-                best = palette_lab
+        rgb = (r, g, b)
+        cached = self._closest_cache.get(rgb, None)
+        if cached is not None:
+            # Already know the answer for this RGB value
+            return cached
+        else:
+            # Compute cold and cache result
+            rgb_color = sRGBColor(r, g, b, is_upscaled=True)
+            lab = convert_color(rgb_color, LabColor)
 
-        return self._by_lab_lookup[best]
+            best_lab = None
+            best_diff = 101
+            for palette_lab in self._by_lab_lookup:
+                diff = delta_e_cie2000(lab, palette_lab)
+                if diff < best_diff:
+                    best_diff = diff
+                    best_lab = palette_lab
+
+            color = self._by_lab_lookup[best_lab]
+            self._closest_cache[rgb] = color
+
+            return color
