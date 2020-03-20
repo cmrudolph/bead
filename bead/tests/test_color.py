@@ -19,7 +19,8 @@ def test_hex_value():
 
 def test_repr():
     val = create_sut().__repr__()
-    assert val == "Color('01', 'BLK', 'BlaCK', '#1a2b3c')"
+    exp = "Color(id='01', code='BLK', name='BlaCK', hex_value='#1a2b3c')"
+    assert val == exp
 
 
 def test_is_white():
