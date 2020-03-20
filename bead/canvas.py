@@ -75,6 +75,14 @@ class Canvas():
     def circles(self):
         return self._circles
 
+    @property
+    def width(self):
+        return self._pixel_width
+
+    @property
+    def height(self):
+        return self._pixel_height
+
     def try_set(self, pixel_x, pixel_y, color_id):
         coords = self._calculate_layout_coordinates(pixel_x, pixel_y)
         if coords is None:

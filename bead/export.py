@@ -5,26 +5,40 @@ from .palette import Palette
 from PIL import Image, ImageDraw, ImageColor
 
 
-def export_layout(palette_path, layout_path, image_path, cell_size):
-    if os.path.exists(image_path):
-        os.remove(image_path)
+CELL_SIZE = 30
 
-    with open(layout_path, 'r') as layout_f:
-        with open(palette_path, 'r') as palette_f:
-            layout = Layout.load_from_file(layout_f)
-            palette = Palette.create_from_file(palette_f)
 
-            canvas = Canvas(layout, palette, cell_size)
-            w = layout.width * cell_size
-            h = layout.height * cell_size
+def export_layout(project):
+    print(f'Exporting project -- Name:{project.name}')
+    with open(project.layout_path, 'r') as layout_f:
+        layout = Layout.load_from_file(layout_f)
+        print(f'Dimensions -- W:{layout.width}; H:{layout.height}')
 
-            img = Image.new('RGB', (w, h), 'white')
-            draw = ImageDraw.Draw(img)
+        # Make sure the project properties and the layout agree on the
+        # dimensions of this pattern. Sanity check to make sure we don't have
+        # a configuration or file mistake in the project.
+        pw = project.properties.width
+        if layout.width != pw:
+            raise ValueError(f'Width error -- L:{layout.width} != P:{pw}')
+        ph = project.properties.height
+        if layout.height != ph:
+            raise ValueError(f'Height error -- L:{layout.height} != P:{ph}')
 
-            _render_grid(draw, canvas)
-            _render_beads(draw, canvas)
+        canvas = Canvas(layout, project.palette, CELL_SIZE)
 
-            img.save(image_path, 'PNG')
+        # Create a new, empty image of the proper dimensions. The image
+        # dimensions are not the 'raw' dimensions of the layout. They must
+        # be scaled by a constant number of pixels (pixels per bead).
+        img = Image.new('RGB', (canvas.width, canvas.height), 'white')
+        draw = ImageDraw.Draw(img)
+
+        # Now draw the necessary shapes. The grid serves as a guideline to keep
+        # one's position straight while the beads provide color info.
+        _render_grid(draw, canvas)
+        _render_beads(draw, canvas)
+
+        print(f'Writing -- Path:{project.final_path}')
+        img.save(project.final_path, 'PNG')
 
 
 def _render_grid(draw, canvas):
