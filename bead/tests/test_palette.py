@@ -69,7 +69,6 @@ def test_hex_value_from_code():
 
 
 @pytest.mark.parametrize('hex, expected_code', comparison_cases)
-@pytest.mark.filterwarnings("ignore:.*np.* deprecated:DeprecationWarning")
 def test_closest_color(hex, expected_code):
     sut = create_sut()
     rgb = hex_to_rgb(hex)

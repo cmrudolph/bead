@@ -19,7 +19,6 @@ def project(tmpdir):
     return Project(tmpdir, name)
 
 
-@pytest.mark.filterwarnings("ignore:.*np.* deprecated:DeprecationWarning")
 def test_generate_transparency(project):
     baseline_path = os.path.join(BASELINES_DIR, 'transparency_layout.txt')
 
@@ -27,7 +26,6 @@ def test_generate_transparency(project):
     assert filecmp.cmp(baseline_path, project.layout_path) is True
 
 
-@pytest.mark.filterwarnings("ignore:.*np.* deprecated:DeprecationWarning")
 def test_generate_notransparency(project):
     baseline_path = os.path.join(BASELINES_DIR, 'notransparency_layout.txt')
     src = os.path.join(MISC_DIR, 'notransparency.png')
@@ -37,7 +35,6 @@ def test_generate_notransparency(project):
     assert filecmp.cmp(baseline_path, project.layout_path) is True
 
 
-@pytest.mark.filterwarnings("ignore:.*np.* deprecated:DeprecationWarning")
 def test_generate_exists_noforce(project):
     baseline_path = os.path.join(BASELINES_DIR, 'transparency_layout.txt')
 
@@ -46,7 +43,6 @@ def test_generate_exists_noforce(project):
         generate_layout(project)
 
 
-@pytest.mark.filterwarnings("ignore:.*np.* deprecated:DeprecationWarning")
 def test_generate_exists_force(project):
     baseline_path = os.path.join(BASELINES_DIR, 'transparency_layout.txt')
 
@@ -55,7 +51,6 @@ def test_generate_exists_force(project):
     assert filecmp.cmp(baseline_path, project.layout_path) is True
 
 
-@pytest.mark.filterwarnings("ignore:.*np.* deprecated:DeprecationWarning")
 def test_generate_missing_input(project):
     os.unlink(project.quantized_path)
 
