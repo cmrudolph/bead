@@ -53,6 +53,23 @@ def test_construct_directly():
     assert [c.code for c in sut.colors] == ['BLK', 'WHT', 'RED', 'PGR', 'CBT']
 
 
+def test_filtered_valid():
+    sut = create_sut(["White", "Cobalt"])
+
+    assert [c.id for c in sut.colors] == ['02', '29']
+    assert [c.code for c in sut.colors] == ['WHT', 'CBT']
+
+
+def test_filtered_unknown():
+    with pytest.raises(ValueError):
+        create_sut(["White", "Roomba"])
+
+
+def test_filtered_empty():
+    sut = create_sut([])
+    assert len(sut.colors) == 5
+
+
 def test_code_from_hex_value():
     sut = create_sut()
 
@@ -92,13 +109,13 @@ def test_closest_color_transparent():
     assert c1 is None
 
 
-def create_sut():
+def create_sut(name_whitelist=None):
     black = Color('16', 'BLK', 'Black', '#343234')
     white = Color('02', 'WHT', 'White', '#f7f7f2')
     red = Color('42', 'RED', 'Red', '#c43a44')
     green = Color('17', 'PGR', 'Parrot Green', '#00968a')
     blue = Color('29', 'CBT', 'Cobalt', '#0066b3')
-    return Palette([black, white, red, green, blue])
+    return Palette([black, white, red, green, blue], name_whitelist)
 
 
 def create_pseudo_file(raw_txt):

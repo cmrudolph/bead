@@ -16,9 +16,18 @@ class Project:
         with open(props_path, 'r') as f:
             self._properties = Properties.load_from_file(f)
 
+        # The master palette lives with the source. It is effectively a baked
+        # in detail of the application. Projects can override the set of
+        # available colors via filtering if they desire.
         palette_path = Path(__file__).parent.parent.joinpath('palette.txt')
-        with open(palette_path, 'r') as f:
-            self._palette = Palette.create_from_file(f)
+        with open(palette_path, 'r') as palette_f:
+            whitelist = None
+            colors_path = os.path.join(self._project_folder, 'colors.txt')
+            if os.path.exists(colors_path):
+                with open(colors_path, 'r') as colors_f:
+                    whitelist = [x.strip() for x in colors_f.readlines()]
+
+            self._palette = Palette.create_from_file(palette_f, whitelist)
 
     @property
     def name(self):

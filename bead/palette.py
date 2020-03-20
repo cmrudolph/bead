@@ -4,15 +4,33 @@ from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
 
 
+def find_color_by_name(all_colors, name):
+    for c in all_colors:
+        if c.name == name:
+            return c
+
+
 class Palette:
-    def __init__(self, colors):
-        self._colors = colors
+    def __init__(self, all_colors, name_whitelist=None):
+        self._colors = []
+        if name_whitelist is not None and len(name_whitelist) > 0:
+            # A filter was specified. Reduce the palette to only a subset of
+            # all available colors
+            for name in name_whitelist:
+                match = find_color_by_name(all_colors, name)
+                if match is None:
+                    raise ValueError(f'Unknown color -- Name:{name}')
+                self._colors.append(match)
+        else:
+            # No filtering - palette includes all available colors
+            self._colors = all_colors[:]
+
         self._by_code_lookup = dict()
         self._by_hex_value_lookup = dict()
         self._by_lab_lookup = dict()
         self._closest_cache = dict()
 
-        for c in colors:
+        for c in self._colors:
             self._by_code_lookup[c.code] = c
             self._by_hex_value_lookup[c.hex_value] = c
 
@@ -23,12 +41,12 @@ class Palette:
             self._by_lab_lookup[lab] = c
 
     @staticmethod
-    def create_from_file(fp):
+    def create_from_file(fp, name_whitelist=None):
         txt = fp.read()
-        return Palette.create_from_txt(txt)
+        return Palette.create_from_txt(txt, name_whitelist)
 
     @staticmethod
-    def create_from_txt(raw_txt):
+    def create_from_txt(raw_txt, name_whitelist=None):
         colors = []
         lines = raw_txt.splitlines()
         for line in lines:
@@ -39,7 +57,7 @@ class Palette:
                 name = splits[2]
                 hex_value = splits[3]
                 colors.append(Color(id, code, name, hex_value))
-        return Palette(colors)
+        return Palette(colors, name_whitelist)
 
     @property
     def colors(self):
