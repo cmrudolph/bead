@@ -12,7 +12,7 @@ def export_layout(palette_path, layout_path, image_path, cell_size):
     with open(layout_path, 'r') as layout_f:
         with open(palette_path, 'r') as palette_f:
             layout = Layout.load_from_file(layout_f)
-            palette = Palette.load_from_file(palette_f)
+            palette = Palette.create_from_file(palette_f)
 
             canvas = Canvas(layout, palette, cell_size)
             w = layout.width * cell_size

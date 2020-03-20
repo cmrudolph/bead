@@ -22,12 +22,12 @@ class Palette:
             self._by_lab_lookup[lab] = c
 
     @staticmethod
-    def load_from_file(fp):
+    def create_from_file(fp):
         txt = fp.read()
-        return Palette.load_from_txt(txt)
+        return Palette.create_from_txt(txt)
 
     @staticmethod
-    def load_from_txt(raw_txt):
+    def create_from_txt(raw_txt):
         colors = []
         lines = raw_txt.splitlines()
         for line in lines:

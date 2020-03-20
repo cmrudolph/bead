@@ -13,7 +13,7 @@ def generate_layout(palette_path, image_path, layout_path, width, height):
     with open(layout_path, 'w') as layout_f:
         with open(palette_path, 'r') as palette_f:
             layout = Layout.create_new(layout_f, width, height)
-            palette = Palette.load_from_file(palette_f)
+            palette = Palette.create_from_file(palette_f)
 
             img = Image.open(image_path)
 

@@ -23,10 +23,10 @@ comparison_cases = [
 ]
 
 
-def test_load_from_txt():
+def test_create_from_txt():
     raw = ('02  |  RED  |  Radical Red  |  #a1B2c3\n\n'
            '01  |  BLU  |  Beautiful Blue  |  #F9e8D7\n\n')
-    sut = Palette.load_from_txt(raw)
+    sut = Palette.create_from_txt(raw)
 
     assert [c.id for c in sut.colors] == ['02', '01']
     assert [c.code for c in sut.colors] == ['RED', 'BLU']
@@ -34,11 +34,11 @@ def test_load_from_txt():
     assert [c.hex_value for c in sut.colors] == ['#a1b2c3', '#f9e8d7']
 
 
-def test_load_from_file():
+def test_create_from_file():
     raw = ('02  |  RED  |  Radical Red  |  #a1B2c3\n\n'
            '01  |  BLU  |  Beautiful Blue  |  #F9e8D7\n\n')
     f = create_pseudo_file(raw)
-    sut = Palette.load_from_file(f)
+    sut = Palette.create_from_file(f)
 
     assert [c.id for c in sut.colors] == ['02', '01']
     assert [c.code for c in sut.colors] == ['RED', 'BLU']

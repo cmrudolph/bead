@@ -145,7 +145,7 @@ class Cli():
 
     def _process_palette_file(self, palette_file):
         with open(palette_file, 'r') as f:
-            p = Palette.load_from_file(f)
+            p = Palette.create_from_file(f)
         return p
 
     def _launch_app(self, palette, layout):
