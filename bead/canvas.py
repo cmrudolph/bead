@@ -148,14 +148,10 @@ class Canvas():
                 if color is None:
                     # EMPTY = draw pure white (no circle)
                     continue
-                elif color.is_white():
-                    # WHITE = draw a hollow black circle
-                    edge_color = '#000000'
-                    fill_color = color.hex_value
                 else:
                     # OTHER = draw colored circle
-                    edge_color = color.hex_value
-                    fill_color = color.hex_value
+                    edge_color = color.hex_edge
+                    fill_color = color.hex_view
 
                 # Include an offset + some padding so the circles do not go
                 # all the way to the grid edges (breathing room)

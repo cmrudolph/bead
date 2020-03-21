@@ -26,17 +26,17 @@ class Palette:
             self._colors = all_colors[:]
 
         self._by_code_lookup = dict()
-        self._by_hex_value_lookup = dict()
+        self._by_hex_internal_lookup = dict()
         self._by_lab_lookup = dict()
         self._closest_cache = dict()
 
         for c in self._colors:
             self._by_code_lookup[c.code] = c
-            self._by_hex_value_lookup[c.hex_value] = c
+            self._by_hex_internal_lookup[c.hex_internal] = c
 
             # Compute and store each CIELab color because we will need these
             # for doing color comparisons later
-            rgb = sRGBColor.new_from_rgb_hex(c.hex_value)
+            rgb = sRGBColor.new_from_rgb_hex(c.hex_internal)
             lab = convert_color(rgb, LabColor)
             self._by_lab_lookup[lab] = c
 
@@ -48,23 +48,29 @@ class Palette:
     @staticmethod
     def create_from_txt(raw_txt, name_whitelist=None):
         colors = []
-        lines = raw_txt.splitlines()
+        lines = raw_txt.splitlines()[1:]
         for line in lines:
             splits = [x.strip() for x in line.split('|')]
-            if len(splits) == 4:
+            if len(splits) == 6:
                 id = splits[0]
                 code = splits[1]
                 name = splits[2]
-                hex_value = splits[3]
-                colors.append(Color(id, code, name, hex_value))
+                internal = splits[3]
+
+                # Optional component -- fall back to internal value
+                view = splits[4].strip()
+                view = internal if len(view) == 0 else view
+
+                # Optional component -- fall back to internal value
+                edge = splits[5].strip()
+                edge = internal if len(edge) == 0 else edge
+
+                colors.append(Color(id, code, name, internal, view, edge))
         return Palette(colors, name_whitelist)
 
     @property
     def colors(self):
         return self._colors
-
-    def color_from_hex_value(self, hex_value):
-        return self._by_hex_value_lookup.get(hex_value.lower(), None)
 
     def color_from_code(self, code):
         return self._by_code_lookup.get(code, None)

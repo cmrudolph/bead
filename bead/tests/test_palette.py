@@ -24,26 +24,32 @@ closest_color_rgb_cases = [
 
 
 def test_create_from_txt():
-    raw = ('02  |  RED  |  Radical Red  |  #a1B2c3\n\n'
-           '01  |  BLU  |  Beautiful Blue  |  #F9e8D7\n\n')
+    raw = ('ID | CODE | NAME | INT | VIEW | EDGE\n'
+           '02 | RED | Red  | #111111 | | #333333\n\n'
+           '01 | BLU | Blue | #444444 | #555555 | \n\n')
     sut = Palette.create_from_txt(raw)
 
     assert [c.id for c in sut.colors] == ['02', '01']
     assert [c.code for c in sut.colors] == ['RED', 'BLU']
-    assert [c.name for c in sut.colors] == ['Radical Red', 'Beautiful Blue']
-    assert [c.hex_value for c in sut.colors] == ['#a1b2c3', '#f9e8d7']
+    assert [c.name for c in sut.colors] == ['Red', 'Blue']
+    assert [c.hex_internal for c in sut.colors] == ['#111111', '#444444']
+    assert [c.hex_view for c in sut.colors] == ['#111111', '#555555']
+    assert [c.hex_edge for c in sut.colors] == ['#333333', '#444444']
 
 
 def test_create_from_file():
-    raw = ('02  |  RED  |  Radical Red  |  #a1B2c3\n\n'
-           '01  |  BLU  |  Beautiful Blue  |  #F9e8D7\n\n')
+    raw = ('ID | CODE | NAME | INT | VIEW | EDGE\n'
+           '02 | RED | Red  | #111111 | | #333333\n\n'
+           '01 | BLU | Blue | #444444 | #555555 | \n\n')
     f = create_pseudo_file(raw)
     sut = Palette.create_from_file(f)
 
     assert [c.id for c in sut.colors] == ['02', '01']
     assert [c.code for c in sut.colors] == ['RED', 'BLU']
-    assert [c.name for c in sut.colors] == ['Radical Red', 'Beautiful Blue']
-    assert [c.hex_value for c in sut.colors] == ['#a1b2c3', '#f9e8d7']
+    assert [c.name for c in sut.colors] == ['Red', 'Blue']
+    assert [c.hex_internal for c in sut.colors] == ['#111111', '#444444']
+    assert [c.hex_view for c in sut.colors] == ['#111111', '#555555']
+    assert [c.hex_edge for c in sut.colors] == ['#333333', '#444444']
 
 
 def test_construct_directly():
@@ -70,18 +76,10 @@ def test_filtered_empty():
     assert len(sut.colors) == 5
 
 
-def test_code_from_hex_value():
+def test_color_from_code():
     sut = create_sut()
 
-    assert sut.color_from_hex_value('#c43a44').code == 'RED'
-    assert sut.color_from_hex_value('#C43A44').code == 'RED'
-    assert sut.color_from_hex_value('#ffffff') is None
-
-
-def test_hex_value_from_code():
-    sut = create_sut()
-
-    assert sut.color_from_code('RED').hex_value == '#c43a44'
+    assert sut.color_from_code('RED').name == 'Red'
     assert sut.color_from_code('YEL') is None
 
 
@@ -110,11 +108,11 @@ def test_closest_color_transparent():
 
 
 def create_sut(name_whitelist=None):
-    black = Color('16', 'BLK', 'Black', '#343234')
-    white = Color('02', 'WHT', 'White', '#f7f7f2')
-    red = Color('42', 'RED', 'Red', '#c43a44')
-    green = Color('17', 'PGR', 'Parrot Green', '#00968a')
-    blue = Color('29', 'CBT', 'Cobalt', '#0066b3')
+    black = Color('16', 'BLK', 'Black', '#343234', '#343234', '#343234')
+    white = Color('02', 'WHT', 'White', '#f7f7f2', '#f7f7f2', '#f7f7f2')
+    red = Color('42', 'RED', 'Red', '#c43a44',  '#c43a44', '#c43a44')
+    green = Color('17', 'PGR', 'Parrot Green', '#00968a', '#00968a', '#00968a')
+    blue = Color('29', 'CBT', 'Cobalt', '#0066b3', '#0066b3', '#0066b3')
     return Palette([black, white, red, green, blue], name_whitelist)
 
 

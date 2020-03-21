@@ -125,7 +125,7 @@ class MainWindow(QtWidgets.QMainWindow):
         row = 0
         col = -1
         for i, c in enumerate(palette.colors):
-            b = QPaletteButton(c.hex_value, c.name)
+            b = QPaletteButton(c.hex_view, c.name)
             b.pressed.connect(lambda c=c: self.canvas.set_color(c))
             if col == 1:
                 row += 1

@@ -35,31 +35,15 @@ def test_circles():
     assert c1.topleft == (2, 2)
     assert c1.bottomright == (8, 8)
     assert c1.diameter == 6
-    assert c1.fill_color == '#aaaaaa'
-    assert c1.edge_color == '#aaaaaa'
+    assert c1.fill_color == '#222222'
+    assert c1.edge_color == '#333333'
 
     c2 = sut.circles[1]
     assert c2.topleft == (2, 22)
     assert c2.bottomright == (8, 28)
     assert c2.diameter == 6
-    assert c2.fill_color == '#bbbbbb'
-    assert c2.edge_color == '#bbbbbb'
-
-
-def test_circles_white():
-    f = create_pseudo_file('')
-    layout = Layout.create_new(f, 1, 3)
-    layout.set_value(0, 0, 'WHT')
-    layout.set_value(0, 2, 'WHT')
-    sut = create_sut(layout, 10)
-
-    c1 = sut.circles[0]
-    assert c1.fill_color == '#cccccc'
-    assert c1.edge_color == '#000000'
-
-    c2 = sut.circles[1]
-    assert c2.fill_color == '#cccccc'
-    assert c2.edge_color == '#000000'
+    assert c2.fill_color == '#555555'
+    assert c2.edge_color == '#666666'
 
 
 def test_try_set_edge():
@@ -83,8 +67,8 @@ def test_try_set_valid():
     assert len(sut.circles) == 1
 
     c1 = sut.circles[0]
-    assert c1.fill_color == '#aaaaaa'
-    assert c1.edge_color == '#aaaaaa'
+    assert c1.fill_color == '#222222'
+    assert c1.edge_color == '#333333'
 
 
 def test_try_set_overwrite():
@@ -98,8 +82,8 @@ def test_try_set_overwrite():
     assert len(sut.circles) == 1
 
     c1 = sut.circles[0]
-    assert c1.fill_color == '#aaaaaa'
-    assert c1.edge_color == '#aaaaaa'
+    assert c1.fill_color == '#222222'
+    assert c1.edge_color == '#333333'
 
 
 def test_try_clear_edge():
@@ -113,8 +97,8 @@ def test_try_clear_edge():
     assert len(sut.circles) == 1
 
     c1 = sut.circles[0]
-    assert c1.fill_color == '#aaaaaa'
-    assert c1.edge_color == '#aaaaaa'
+    assert c1.fill_color == '#222222'
+    assert c1.edge_color == '#333333'
 
 
 def test_try_clear_valid():
@@ -146,9 +130,9 @@ def create_pseudo_file(raw_json):
 
 
 def create_palette():
-    c1 = Color('01', 'RED', 'Red', '#aaaaaa')
-    c2 = Color('02', 'BLU', 'Blue', '#bbbbbb')
-    c3 = Color('03', 'WHT', 'White', '#cccccc')
+    c1 = Color('01', 'RED', 'Red', '#111111', '#222222', '#333333')
+    c2 = Color('02', 'BLU', 'Blue', '#444444', '#555555', '#666666')
+    c3 = Color('03', 'WHT', 'White', '#777777', '#888888', '#999999')
     return Palette([c1, c2, c3])
 
 
