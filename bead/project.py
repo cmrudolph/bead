@@ -47,6 +47,10 @@ class Project:
         return os.path.join(self._project_dir, 'original.png')
 
     @property
+    def cropped_path(self):
+        return os.path.join(self._project_dir, 'cropped.png')
+
+    @property
     def quantized_path(self):
         return os.path.join(self._project_dir, 'quantized.png')
 

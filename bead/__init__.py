@@ -1,5 +1,6 @@
 from .canvas import Canvas
 from .color import Color
+from .crop import crop_image
 from .designer import design_layout
 from .export import export_layout
 from .generate import generate_layout

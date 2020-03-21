@@ -17,6 +17,9 @@ def test_project_valid(tmpdir):
     assert name in sut.orig_path
     assert 'original.png' in sut.orig_path
 
+    assert name in sut.cropped_path
+    assert 'cropped.png' in sut.cropped_path
+
     assert name in sut.quantized_path
     assert 'quantized.png' in sut.quantized_path
 
