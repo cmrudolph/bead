@@ -1,7 +1,9 @@
-import fire
 import os
 import sys
-from bead import Canvas, Layout, Palette, Project
+from .canvas import Canvas
+from .layout import Layout
+from .palette import Palette
+from .project import Project
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPen, QBrush, QPixmap
@@ -12,7 +14,13 @@ CELL_SIZE = 25
 PALETTE_BTN_SIZE = 20
 
 
-Root = None
+def design_layout(project):
+    with open(project.layout_path, 'r+') as f:
+        layout = Layout.load_from_file(f)
+        app = QApplication(sys.argv)
+        window = MainWindow(project.palette, layout)
+        window.show()
+        app.exec_()
 
 
 class BeadPixmap(QPixmap):
@@ -125,22 +133,3 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 col += 1
             layout.addWidget(b, row, col)
-
-
-class Cli():
-    def load(self, project_name):
-        project = Project(Root, project_name)
-        with open(project.layout_path, 'r+') as f:
-            layout = Layout.load_from_file(f)
-            self._launch_app(project.palette, layout)
-
-    def _launch_app(self, palette, layout):
-        app = QApplication(sys.argv)
-        window = MainWindow(palette, layout)
-        window.show()
-        app.exec_()
-
-
-if __name__ == "__main__":
-    Root = os.getenv('BEADROOT')
-    fire.Fire(Cli)
