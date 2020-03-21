@@ -1,58 +1,63 @@
+from . import utils
 from bead import Layout, Project, export_layout
 import filecmp
 import os
 import pytest
-import shutil
 
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-BASELINES_DIR = os.path.join(DATA_DIR, 'baselines', 'test_export')
+def test_export_valid(tmpdir):
+    baseline_path = baseline('valid_final.png')
+    p = utils.create_project(tmpdir, 'p', 2, 2)
+    with open(p.layout_path, 'w') as f:
+        layout = Layout.create_new(f, 2, 2)
+        layout.set_value(0, 0, 'BLK')
+        layout.set_value(1, 0, 'WHT')
+        layout.set_value(0, 1, 'BLK')
+
+    export_layout(p)
+
+    assert filecmp.cmp(baseline_path, p.final_path) is True
 
 
-@pytest.fixture
-def project(tmpdir):
-    name = 'test_export'
-    source_dir = os.path.join(DATA_DIR, 'projects', name)
-    shutil.copytree(source_dir, tmpdir.join(name))
-    print(f'\nTest project -- Root:{tmpdir}; Name:{name}')
-    return Project(tmpdir, name)
+def test_export_overwrite(tmpdir):
+    baseline_path = baseline('valid_final.png')
+    p = utils.create_project(tmpdir, 'p', 2, 2)
+    with open(p.layout_path, 'w') as f:
+        layout = Layout.create_new(f, 2, 2)
+        layout.set_value(0, 0, 'BLK')
+        layout.set_value(1, 0, 'WHT')
+        layout.set_value(0, 1, 'BLK')
+
+    export_layout(p)
+    export_layout(p)
+
+    assert filecmp.cmp(baseline_path, p.final_path) is True
 
 
-def test_export_valid(project):
-    baseline_path = os.path.join(BASELINES_DIR, 'valid_final.png')
-
-    export_layout(project)
-    assert filecmp.cmp(baseline_path, project.final_path) is True
-
-
-def test_export_overwrite(project):
-    baseline_path = os.path.join(BASELINES_DIR, 'valid_final.png')
-
-    export_layout(project)
-    export_layout(project)
-    assert filecmp.cmp(baseline_path, project.final_path) is True
-
-
-def test_export_missing_input(project):
-    os.unlink(project.layout_path)
+def test_export_missing_input(tmpdir):
+    p = utils.create_project(tmpdir, 'p', 2, 2)
 
     with pytest.raises(ValueError):
-        export_layout(project)
+        export_layout(p)
 
 
-def test_export_width_mismatch(project):
-    os.unlink(project.layout_path)
-    with open(project.layout_path, 'w') as f:
+def test_export_width_mismatch(tmpdir):
+    p = utils.create_project(tmpdir, 'p', 2, 2)
+    with open(p.layout_path, 'w') as f:
         layout = Layout.create_new(f, 1, 2)
 
     with pytest.raises(ValueError):
-        export_layout(project)
+        export_layout(p)
 
 
-def test_export_height_mismatch(project):
-    os.unlink(project.layout_path)
-    with open(project.layout_path, 'w') as f:
+def test_export_height_mismatch(tmpdir):
+    p = utils.create_project(tmpdir, 'p', 2, 2)
+    with open(p.layout_path, 'w') as f:
         layout = Layout.create_new(f, 2, 1)
 
     with pytest.raises(ValueError):
-        export_layout(project)
+        export_layout(p)
+
+
+def baseline(file_name):
+    return utils.get_baseline_path('test_export', file_name)

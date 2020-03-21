@@ -6,3 +6,4 @@ from .layout import Layout
 from .palette import Palette
 from .project import Project
 from .properties import Properties
+from .quantize import quantize_image

@@ -1,51 +1,39 @@
+from . import utils
 from bead import Project
 import os
 import pytest
-import shutil
 
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-NAME = 'test_project'
+def test_project_valid(tmpdir):
+    name = 'p888'
+    pf = utils.create_project_folder(tmpdir, name, 29, 26, 20)
+    sut = Project(pf)
 
-
-@pytest.fixture
-def root_dir(tmpdir):
-    source_dir = os.path.join(DATA_DIR, 'projects', NAME)
-    shutil.copytree(source_dir, tmpdir.join(NAME))
-    print(f'\nTest project -- Root:{tmpdir}; Name:{NAME}')
-    return tmpdir
-
-
-def test_project_valid(root_dir):
-    sut = Project(root_dir, NAME)
-
-    assert sut.name == NAME
+    assert sut.name == name
     assert sut.properties.width == 29
     assert sut.palette.color_from_code('WHT').name == 'White'
     assert len(sut.palette.colors) == 39
 
-    assert NAME in sut.orig_path
+    assert name in sut.orig_path
     assert 'original.png' in sut.orig_path
 
-    assert NAME in sut.quantized_path
+    assert name in sut.quantized_path
     assert 'quantized.png' in sut.quantized_path
 
-    assert NAME in sut.partitioned_path
+    assert name in sut.partitioned_path
     assert 'partitioned.png' in sut.partitioned_path
 
-    assert NAME in sut.layout_path
+    assert name in sut.layout_path
     assert 'layout.txt' in sut.layout_path
 
-    assert NAME in sut.final_path
+    assert name in sut.final_path
     assert 'final.png' in sut.final_path
 
 
-def test_project_filtered_colors(root_dir):
-    colors_file = os.path.join(root_dir, NAME, 'colors.txt')
-    with open(colors_file, 'w') as f:
-        f.write('Black\nWhite')
-
-    sut = Project(root_dir, NAME)
+def test_project_filtered_colors(tmpdir):
+    whitelist = ['White', 'Black']
+    pf = utils.create_project_folder(tmpdir, 'p', 1, 1, colors=whitelist)
+    sut = Project(pf)
 
     assert len(sut.palette.colors) == 2
     assert sut.palette.color_from_code('WHT').name == 'White'
@@ -53,8 +41,21 @@ def test_project_filtered_colors(root_dir):
     assert sut.palette.color_from_code('RED') is None
 
 
-def test_project_missing_root():
-    root = os.path.join(DATA_DIR, 'projects', 'foo')
+def test_project_none_dir():
+    with pytest.raises(ValueError):
+        sut = Project(None)
+
+
+def test_project_missing_dir(tmpdir):
+    pf = os.path.join(tmpdir, 'foo')
 
     with pytest.raises(ValueError):
-        sut = Project(root, NAME)
+        sut = Project(pf)
+
+
+def test_project_missing_properties(tmpdir):
+    pf = os.path.join(tmpdir, 'foo')
+    os.mkdir(pf)
+
+    with pytest.raises(ValueError):
+        sut = Project(pf)

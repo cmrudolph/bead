@@ -1,26 +1,32 @@
 import json
 
 
+KEY_WIDTH = 'width'
+KEY_HEIGHT = 'height'
+KEY_QUANT = 'quantize_colors'
+KEY_COLORS = 'colors'
+
+
 class Properties:
-    def __init__(self, d):
-        self._width = int(d['width'])
-        self._height = int(d['height'])
-        self._quantize_colors = int(d['quantize_colors'])
-        self._colors = d['colors']
+    def __init__(self, width, height, quantize_colors, colors):
+        self._width = width
+        self._height = height
+        self._quantize_colors = quantize_colors
+        self._colors = () if colors is None else tuple(colors)
 
     @staticmethod
-    def load_from_json(json_txt):
-        json_dict = json.loads(json_txt)
-        return Properties.load_from_dict(json_dict)
+    def create(width, height, quant=0, colors=None):
+        return Properties(width, height, quant, colors)
 
     @staticmethod
-    def load_from_file(fp):
-        json_txt = fp.read()
-        return Properties.load_from_json(json_txt)
+    def from_json(json_txt):
+        d = json.loads(json_txt)
+        width = int(d[KEY_WIDTH])
+        height = int(d[KEY_HEIGHT])
+        quantize_colors = int(d.get(KEY_QUANT, 0))
+        colors = d.get(KEY_COLORS, [])
 
-    @staticmethod
-    def load_from_dict(d):
-        return Properties(d)
+        return Properties(width, height, quantize_colors, colors)
 
     @property
     def width(self):
@@ -36,4 +42,14 @@ class Properties:
 
     @property
     def colors(self):
-        return self._colors[:]
+        return self._colors
+
+    def to_json(self):
+        d = {
+            KEY_WIDTH: self._width,
+            KEY_HEIGHT: self._height,
+            KEY_QUANT: self._quantize_colors,
+            KEY_COLORS: self._colors
+        }
+
+        return json.dumps(d, indent=2)
