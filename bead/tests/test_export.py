@@ -6,7 +6,7 @@ import pytest
 
 
 def test_export_valid(tmpdir):
-    baseline_path = baseline('valid_final.png')
+    baseline_path = utils.get_baseline_path('export_valid.png')
     p = utils.create_project(tmpdir, 'p', 2, 2)
     with open(p.layout_path, 'w') as f:
         layout = Layout.create_new(f, 2, 2)
@@ -20,7 +20,7 @@ def test_export_valid(tmpdir):
 
 
 def test_export_overwrite(tmpdir):
-    baseline_path = baseline('valid_final.png')
+    baseline_path = utils.get_baseline_path('export_valid.png')
     p = utils.create_project(tmpdir, 'p', 2, 2)
     with open(p.layout_path, 'w') as f:
         layout = Layout.create_new(f, 2, 2)
@@ -57,7 +57,3 @@ def test_export_height_mismatch(tmpdir):
 
     with pytest.raises(ValueError):
         export_layout(p)
-
-
-def baseline(file_name):
-    return utils.get_baseline_path('test_export', file_name)

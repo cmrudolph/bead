@@ -3,13 +3,12 @@ from bead import Project, crop_image
 import filecmp
 import os
 import pytest
-import shutil
 
 
 def test_crop_transparent_edges(tmpdir):
-    baseline_path = baseline('transparent_edges_cropped.png')
+    baseline_path = utils.get_baseline_path('crop_needs_crop.png')
     p = utils.create_project(tmpdir, 'p', 10, 10)
-    shutil.copyfile(misc('transparent_edges.png'), p.orig_path)
+    utils.copy_input('crop_needs_crop.png', p.orig_path)
 
     crop_image(p)
 
@@ -17,9 +16,9 @@ def test_crop_transparent_edges(tmpdir):
 
 
 def test_crop_no_transparent_edges(tmpdir):
-    baseline_path = baseline('no_transparent_edges_cropped.png')
+    baseline_path = utils.get_baseline_path('crop_noop.png')
     p = utils.create_project(tmpdir, 'p', 10, 10)
-    shutil.copyfile(misc('no_transparent_edges.png'), p.orig_path)
+    utils.copy_input('crop_noop.png', p.orig_path)
 
     crop_image(p)
 
@@ -31,11 +30,3 @@ def test_export_missing_input(tmpdir):
 
     with pytest.raises(ValueError):
         crop_image(p)
-
-
-def baseline(file_name):
-    return utils.get_baseline_path('test_crop', file_name)
-
-
-def misc(file_name):
-    return utils.get_misc_path('test_crop', file_name)

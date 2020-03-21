@@ -3,15 +3,12 @@ from bead import Project, generate_layout
 import filecmp
 import os
 import pytest
-import shutil
 
 
 def test_generate_transparency(tmpdir):
-    baseline_path = baseline('transparency_layout.txt')
+    baseline_path = utils.get_baseline_path('generate_transparency.txt')
     p = utils.create_project(tmpdir, 'p', 2, 2)
-    src = misc('transparency.png')
-    dest = p.quantized_path
-    shutil.copyfile(src, dest)
+    utils.copy_input('generate_transparency.png', p.quantized_path)
 
     generate_layout(p)
 
@@ -19,11 +16,9 @@ def test_generate_transparency(tmpdir):
 
 
 def test_generate_notransparency(tmpdir):
-    baseline_path = baseline('notransparency_layout.txt')
+    baseline_path = utils.get_baseline_path('generate_notransparency.txt')
     p = utils.create_project(tmpdir, 'p', 2, 2)
-    src = misc('notransparency.png')
-    dest = p.quantized_path
-    shutil.copyfile(src, dest)
+    utils.copy_input('generate_notransparency.png', p.quantized_path)
 
     generate_layout(p)
 
@@ -32,9 +27,7 @@ def test_generate_notransparency(tmpdir):
 
 def test_generate_exists_noforce(tmpdir):
     p = utils.create_project(tmpdir, 'p', 2, 2)
-    src = misc('transparency.png')
-    dest = p.quantized_path
-    shutil.copyfile(src, dest)
+    utils.copy_input('generate_notransparency.png', p.quantized_path)
 
     generate_layout(p)
     with pytest.raises(ValueError):
@@ -42,11 +35,9 @@ def test_generate_exists_noforce(tmpdir):
 
 
 def test_generate_exists_force(tmpdir):
-    baseline_path = baseline('transparency_layout.txt')
+    baseline_path = utils.get_baseline_path('generate_transparency.txt')
     p = utils.create_project(tmpdir, 'p', 2, 2)
-    src = misc('transparency.png')
-    dest = p.quantized_path
-    shutil.copyfile(src, dest)
+    utils.copy_input('generate_transparency.png', p.quantized_path)
 
     generate_layout(p)
     generate_layout(p, force=True)
@@ -59,11 +50,3 @@ def test_generate_missing_input(tmpdir):
 
     with pytest.raises(ValueError):
         generate_layout(p)
-
-
-def baseline(file_name):
-    return utils.get_baseline_path('test_generate', file_name)
-
-
-def misc(file_name):
-    return utils.get_misc_path('test_generate', file_name)

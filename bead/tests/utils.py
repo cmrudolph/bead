@@ -1,16 +1,22 @@
 from bead import Properties, Project
 import os
+import shutil
 
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
 
-def get_baseline_path(test_class, file_name):
-    return os.path.join(DATA_DIR, 'baselines', test_class, file_name)
+def get_baseline_path(file_name):
+    return os.path.join(DATA_DIR, 'baselines', file_name)
 
 
-def get_misc_path(test_class, file_name):
-    return os.path.join(DATA_DIR, 'misc', test_class, file_name)
+def get_input_path(file_name):
+    return os.path.join(DATA_DIR, 'input', file_name)
+
+
+def copy_input(file_name, dest_path):
+    src_path = get_input_path(file_name)
+    shutil.copyfile(src_path, dest_path)
 
 
 def create_project_folder(root, name, width, height, quant=10, colors=None):

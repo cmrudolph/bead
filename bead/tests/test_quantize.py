@@ -3,13 +3,12 @@ from bead import Project, quantize_image
 import filecmp
 import os
 import pytest
-import shutil
 
 
 def test_quantize_notransparency(tmpdir):
-    baseline_path = baseline('notransparency_quantized.png')
+    baseline_path = utils.get_baseline_path('quantize_notransparency.png')
     p = utils.create_project(tmpdir, 'p', 50, 50, 3)
-    shutil.copyfile(misc('notransparency.png'), p.cropped_path)
+    utils.copy_input('quantize_notransparency.png', p.cropped_path)
 
     quantize_image(p)
 
@@ -17,9 +16,9 @@ def test_quantize_notransparency(tmpdir):
 
 
 def test_quantize_transparency(tmpdir):
-    baseline_path = baseline('transparency_quantized.png')
+    baseline_path = utils.get_baseline_path('quantize_transparency.png')
     p = utils.create_project(tmpdir, 'p', 50, 50, 3)
-    shutil.copyfile(misc('transparency.png'), p.cropped_path)
+    utils.copy_input('quantize_transparency.png', p.cropped_path)
 
     quantize_image(p)
 
@@ -31,11 +30,3 @@ def test_quantize_missing_input(tmpdir):
 
     with pytest.raises(ValueError):
         quantize_image(p)
-
-
-def baseline(file_name):
-    return utils.get_baseline_path('test_quantize', file_name)
-
-
-def misc(file_name):
-    return utils.get_misc_path('test_quantize', file_name)
