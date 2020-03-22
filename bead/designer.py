@@ -4,9 +4,11 @@ from .canvas import Canvas
 from .layout import Layout
 from .palette import Palette
 from .project import Project
+from PIL import Image
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor, QPainter, QPen, QBrush, QPixmap
+from PyQt5.QtGui import (QColor, QPainter, QPen, QBrush, QPixmap, QImage,
+                         QPalette)
 from PyQt5.QtWidgets import QApplication
 
 
@@ -18,22 +20,34 @@ def design_layout(project):
     with open(project.layout_path, 'r+') as f:
         layout = Layout.load_from_file(f)
         app = QApplication(sys.argv)
-        window = MainWindow(project.palette, layout)
+        window = MainWindow(project, layout)
         window.show()
         app.exec_()
 
 
 class BeadPixmap(QPixmap):
-    def __init__(self, layout, palette, cell_size):
+    def __init__(self, project, layout, cell_size):
         self._cell_size = cell_size
         self._layout = layout
-        self._bead_canvas = Canvas(layout, palette, cell_size)
+        self._bead_canvas = Canvas(layout, project.palette, cell_size)
 
         pixel_width = layout.width * cell_size
         pixel_height = layout.height * cell_size
-        super().__init__(pixel_width, pixel_height)
 
-        self.fill(Qt.white)
+        if os.path.exists(project.cropped_path):
+            # If a cropped file path exists, assume we want the designer to
+            # use said image as the background. This makes bead placement
+            # easier since an image will be visible.
+            if not os.path.exists(project.scaled_path):
+                img = Image.open(project.scaled_path)
+                scaled = img.resize((pixel_width, pixel_height))
+                scaled.save(project.scaled_path, 'PNG')
+            super().__init__(project.scaled_path)
+        else:
+            # Default = just render a white background
+            super().__init__(pixel_width, pixel_height)
+            self.fill(Qt.white)
+
         self._render_grid()
         self._render_beads()
 
@@ -64,11 +78,13 @@ class BeadPixmap(QPixmap):
 
 
 class DesignerCanvas(QtWidgets.QLabel):
-    def __init__(self, layout, palette):
+    def __init__(self, project, layout):
         super().__init__()
 
-        self._palette = palette
-        self._bead_canvas = Canvas(layout, palette, CELL_SIZE)
+        self._project = project
+        self._palette = project.palette
+        self._layout = layout
+        self._bead_canvas = Canvas(layout, project.palette, CELL_SIZE)
 
         canvas_width = layout.width * CELL_SIZE
         canvas_height = layout.height * CELL_SIZE
@@ -89,7 +105,7 @@ class DesignerCanvas(QtWidgets.QLabel):
         self._render_from_layout()
 
     def _render_from_layout(self):
-        pixmap = BeadPixmap(self._bead_canvas.layout, self._palette, CELL_SIZE)
+        pixmap = BeadPixmap(self._project, self._layout, CELL_SIZE)
         self.setPixmap(pixmap)
         self.update()
 
@@ -104,17 +120,17 @@ class QPaletteButton(QtWidgets.QPushButton):
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, palette, layout):
+    def __init__(self, project, layout):
         super().__init__()
 
-        self.canvas = DesignerCanvas(layout, palette)
+        self.canvas = DesignerCanvas(project, layout)
 
         widget = QtWidgets.QWidget()
         hbox = QtWidgets.QHBoxLayout()
         widget.setLayout(hbox)
 
         palette_widget = QtWidgets.QGridLayout()
-        self._add_palette_buttons(palette_widget, palette)
+        self._add_palette_buttons(palette_widget, project.palette)
         hbox.addLayout(palette_widget)
 
         hbox.addWidget(self.canvas)

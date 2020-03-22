@@ -1,7 +1,7 @@
 import fire
 import os
 from bead import (Project, export_layout, generate_layout, quantize_image,
-                  design_layout, crop_image)
+                  design_layout, partition_image)
 
 
 class Cli():
@@ -23,6 +23,10 @@ class Cli():
     def generate(self, project_name, force=False):
         project = Project(os.path.join(self._root, project_name))
         generate_layout(project, force)
+
+    def partition(self, project_name):
+        project = Project(os.path.join(self._root, project_name))
+        partition_image(project)
 
     def quantize(self, project_name):
         project = Project(os.path.join(self._root, project_name))

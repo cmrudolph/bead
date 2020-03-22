@@ -17,14 +17,14 @@ def test_project_valid(tmpdir):
     assert name in sut.orig_path
     assert 'original.png' in sut.orig_path
 
-    assert name in sut.cropped_path
-    assert 'cropped.png' in sut.cropped_path
-
-    assert name in sut.quantized_path
-    assert 'quantized.png' in sut.quantized_path
+    assert name in sut.gridified_path
+    assert 'gridified.png' in sut.gridified_path
 
     assert name in sut.partitioned_path
     assert 'partitioned.png' in sut.partitioned_path
+
+    assert name in sut.quantized_path
+    assert 'quantized.png' in sut.quantized_path
 
     assert name in sut.layout_path
     assert 'layout.txt' in sut.layout_path

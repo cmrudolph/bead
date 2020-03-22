@@ -47,16 +47,16 @@ class Project:
         return os.path.join(self._project_dir, 'original.png')
 
     @property
-    def cropped_path(self):
-        return os.path.join(self._project_dir, 'cropped.png')
-
-    @property
-    def quantized_path(self):
-        return os.path.join(self._project_dir, 'quantized.png')
+    def gridified_path(self):
+        return os.path.join(self._project_dir, 'gridified.png')
 
     @property
     def partitioned_path(self):
         return os.path.join(self._project_dir, 'partitioned.png')
+
+    @property
+    def quantized_path(self):
+        return os.path.join(self._project_dir, 'quantized.png')
 
     @property
     def layout_path(self):

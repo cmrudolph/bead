@@ -8,7 +8,7 @@ import pytest
 def test_quantize_notransparency(tmpdir):
     baseline_path = utils.get_baseline_path('quantize_notransparency.png')
     p = utils.create_project(tmpdir, 'p', 50, 50, 3)
-    utils.copy_input('quantize_notransparency.png', p.cropped_path)
+    utils.copy_input('quantize_notransparency.png', p.partitioned_path)
 
     quantize_image(p)
 
@@ -18,7 +18,7 @@ def test_quantize_notransparency(tmpdir):
 def test_quantize_transparency(tmpdir):
     baseline_path = utils.get_baseline_path('quantize_transparency.png')
     p = utils.create_project(tmpdir, 'p', 50, 50, 3)
-    utils.copy_input('quantize_transparency.png', p.cropped_path)
+    utils.copy_input('quantize_transparency.png', p.partitioned_path)
 
     quantize_image(p)
 

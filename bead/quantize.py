@@ -8,10 +8,10 @@ def quantize_image(project):
     num_colors = project.properties.quantize_colors
     print(f'Quantizing image -- Name:{project.name}; Colors:{num_colors}')
 
-    if not os.path.exists(project.cropped_path):
-        raise ValueError(f'File missing -- Path:{project.cropped_path}')
+    if not os.path.exists(project.partitioned_path):
+        raise ValueError(f'File missing -- Path:{project.partitioned_path}')
 
-    original = io.imread(project.cropped_path)
+    original = io.imread(project.partitioned_path)
     width = original.shape[0]
     height = original.shape[1]
     pixels = width * height
