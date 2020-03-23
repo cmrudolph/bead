@@ -8,10 +8,6 @@ class Cli():
     def __init__(self):
         self._root = os.getenv('BEADROOT')
 
-    def crop(self, project_name):
-        project = Project(os.path.join(self._root, project_name))
-        crop_image(project)
-
     def design(self, project_name):
         project = Project(os.path.join(self._root, project_name))
         design_layout(project)

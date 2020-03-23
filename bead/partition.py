@@ -13,10 +13,14 @@ def partition_image(project):
     if not os.path.exists(project.orig_path):
         raise ValueError(f'File missing -- Path:{project.orig_path}')
 
+    # Make sure we have a RGBA image. The alpha channel is important for many
+    # downstream operations and being able to assume it makes life easier
     img = Image.open(project.orig_path)
+    if img.mode == 'RGB':
+        img = img.convert('RGBA')
 
     # First crop to remove all transparent pixels from the edges. This makes
-    # sure the actual image is framed as tightly as possible.
+    # sure the actual image is framed as tightly as possible
     cropped_img = crop_image(img)
 
     # Next, scale the image based on the number of beads we want in each

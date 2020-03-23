@@ -15,8 +15,9 @@ class Cli():
         self._root = os.getenv('BEADROOT')
 
     def clean(self):
-        crop = Project(os.path.join(self._root, 'test_crop'))
-        delete_file(crop.cropped_path)
+        partitioned = Project(os.path.join(self._root, 'test_partitioned'))
+        delete_file(partitioned.partitioned_path)
+        delete_file(partitioned.gridified_path)
 
         export = Project(os.path.join(self._root, 'test_export'))
         delete_file(export.final_path)
@@ -30,7 +31,7 @@ class Cli():
     def runall(self):
         real = RealCli()
 
-        real.crop('test_crop')
+        real.partition('test_partition')
         real.export('test_export')
         real.generate('test_generate')
         real.quantize('test_quantize')

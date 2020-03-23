@@ -34,15 +34,11 @@ class BeadPixmap(QPixmap):
         pixel_width = layout.width * cell_size
         pixel_height = layout.height * cell_size
 
-        if os.path.exists(project.cropped_path):
-            # If a cropped file path exists, assume we want the designer to
+        if os.path.exists(project.partitioned_path):
+            # If a partitioned file exists, assume we want the designer to
             # use said image as the background. This makes bead placement
             # easier since an image will be visible.
-            if not os.path.exists(project.scaled_path):
-                img = Image.open(project.scaled_path)
-                scaled = img.resize((pixel_width, pixel_height))
-                scaled.save(project.scaled_path, 'PNG')
-            super().__init__(project.scaled_path)
+            super().__init__(project.partitioned_path)
         else:
             # Default = just render a white background
             super().__init__(pixel_width, pixel_height)
