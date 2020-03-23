@@ -6,19 +6,9 @@ import pytest
 
 
 def test_generate_transparency(tmpdir):
-    baseline_path = utils.get_baseline_path('generate_transparency.txt')
+    baseline_path = utils.get_baseline_path('generate.txt')
     p = utils.create_project(tmpdir, 'p', 2, 2)
-    utils.copy_input('generate_transparency.png', p.quantized_path)
-
-    generate_layout(p)
-
-    assert filecmp.cmp(baseline_path, p.layout_path) is True
-
-
-def test_generate_notransparency(tmpdir):
-    baseline_path = utils.get_baseline_path('generate_notransparency.txt')
-    p = utils.create_project(tmpdir, 'p', 2, 2)
-    utils.copy_input('generate_notransparency.png', p.quantized_path)
+    utils.copy_input('generate.png', p.quantized_path)
 
     generate_layout(p)
 
@@ -27,7 +17,7 @@ def test_generate_notransparency(tmpdir):
 
 def test_generate_exists_noforce(tmpdir):
     p = utils.create_project(tmpdir, 'p', 2, 2)
-    utils.copy_input('generate_notransparency.png', p.quantized_path)
+    utils.copy_input('generate.png', p.quantized_path)
 
     generate_layout(p)
     with pytest.raises(ValueError):
@@ -35,9 +25,9 @@ def test_generate_exists_noforce(tmpdir):
 
 
 def test_generate_exists_force(tmpdir):
-    baseline_path = utils.get_baseline_path('generate_transparency.txt')
+    baseline_path = utils.get_baseline_path('generate.txt')
     p = utils.create_project(tmpdir, 'p', 2, 2)
-    utils.copy_input('generate_transparency.png', p.quantized_path)
+    utils.copy_input('generate.png', p.quantized_path)
 
     generate_layout(p)
     generate_layout(p, force=True)

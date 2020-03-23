@@ -21,51 +21,28 @@ def generate_layout(project, force=False):
         layout = Layout.create_new(layout_f, width, height)
         img = Image.open(project.quantized_path)
 
-        pixels = []
-        for y in range(img.height):
-            row_pixels = []
-            for x in range(img.width):
-                row_pixels.append(img.getpixel((x, y)))
-            pixels.append(row_pixels)
-
         cell_width = img.width // width
-        cell_width_rem = img.width % width
         cell_height = img.height // height
-        cell_height_rem = img.height % height
 
+        h_offset = 0
         for h in range(height):
+            w_offset = 0
             for w in range(width):
-                cell_pixels = []
-                final_cell_width = cell_width
-                final_cell_height = cell_height
-                if w == width - 1:
-                    final_cell_width += cell_width_rem
-                if h == height - 1:
-                    final_cell_height += cell_height_rem
-
-                h_offset = h * cell_height
-                w_offset = w * cell_width
-
-                for y in range(h_offset, final_cell_height + h_offset):
-                    for x in range(w_offset, final_cell_width + w_offset):
-                        cell_pixels.append(pixels[y][x])
-
                 color_count = Counter()
-                for cp in cell_pixels:
-                    if img.mode == 'RGBA':
-                        # Image has an alpha channel. Need to send all four
-                        # components because transparency matters
-                        vals = (cp[0], cp[1], cp[2], cp[3])
-                    else:
-                        # Image has no transparency, so will only report the
-                        # values of RGB with no fourth component
-                        vals = (cp[0], cp[1], cp[2])
 
-                    # Palette handles this efficiently (caching of lookups that
-                    # have already been asked for)
-                    cell_color = project.palette.closest_color(*vals)
-                    code = cell_color.code if cell_color is not None else None
-                    color_count[code] += 1
+                for y in range(h_offset, h_offset + cell_height):
+                    for x in range(w_offset, w_offset + cell_width):
+                        pixel = img.getpixel((x, y))
+
+                        # Palette handles this efficiently (caching of lookups
+                        # that have already been asked for)
+                        color = project.palette.closest_color(*pixel)
+                        code = None
+                        code = color.code if color is not None else None
+                        color_count[code] += 1
 
                 best_color = color_count.most_common(1)[0][0]
                 layout.set_value(w, h, best_color)
+
+                w_offset += cell_width + 1
+            h_offset += cell_height + 1
