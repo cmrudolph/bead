@@ -1,7 +1,6 @@
 from . import utils
-from bead import Project, partition_image
+from bead import partition_image
 import filecmp
-import os
 import pytest
 
 

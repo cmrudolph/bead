@@ -1,8 +1,7 @@
 import os
 from .canvas import Canvas
 from .layout import Layout
-from .palette import Palette
-from PIL import Image, ImageDraw, ImageColor
+from PIL import Image, ImageDraw
 
 
 CELL_SIZE = 30
@@ -23,7 +22,7 @@ def export_layout(project):
         # a configuration or file mistake in the project.
         pw = project.properties.width
         if layout.width != pw:
-            raise ValueError(f'Width error -- L:{layout.width} != P:{pw}')
+            raise ValueError(f'Width error -- `L:{layout.width} != P:{pw}')
         ph = project.properties.height
         if layout.height != ph:
             raise ValueError(f'Height error -- L:{layout.height} != P:{ph}')

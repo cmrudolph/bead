@@ -1,10 +1,7 @@
 import math
 import numpy as np
 import os
-from .canvas import Canvas
-from .layout import Layout
-from .palette import Palette
-from PIL import Image, ImageDraw, ImageColor
+from PIL import Image
 
 
 def partition_image(project):
@@ -40,8 +37,6 @@ def partition_image(project):
     red = (255, 0, 0, 255)
     blue = (0, 0, 255, 255)
     grid_colored_img = gridify_image(scaled_img, project, red, blue)
-
-    transparent_pixel = (0, 0, 0, 0)
 
     print(f'Writing -- Path:{project.partitioned_path}')
     grid_transparent_img.save(project.partitioned_path, 'PNG')
@@ -105,12 +100,12 @@ def gridify_image(img, project, row_pixel, col_pixel):
 
     # Insert columns of consistent pixels at all the relevant steps along the
     # way (step = dividing line between neighboring beads)
-    for x in range(w-step_w, 0, -1 * step_w):
+    for x in range(w - step_w, 0, -1 * step_w):
         a = np.insert(a, x, col_pixel, 1)
 
     # Insert rows of consistent pixels at all the relevant steps along the
     # way (step = dividing line between neighboring beads)
-    for y in range(h-step_h, 0, -1 * step_h):
+    for y in range(h - step_h, 0, -1 * step_h):
         a = np.insert(a, y, row_pixel, 0)
 
     new_h = a.shape[0]

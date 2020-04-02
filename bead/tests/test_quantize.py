@@ -1,7 +1,6 @@
 from . import utils
-from bead import Project, quantize_image
+from bead import quantize_image
 import filecmp
-import os
 import pytest
 
 

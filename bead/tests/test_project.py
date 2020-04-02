@@ -46,14 +46,14 @@ def test_project_filtered_colors(tmpdir):
 
 def test_project_none_dir():
     with pytest.raises(ValueError):
-        sut = Project(None)
+        Project(None)
 
 
 def test_project_missing_dir(tmpdir):
     pf = os.path.join(tmpdir, 'foo')
 
     with pytest.raises(ValueError):
-        sut = Project(pf)
+        Project(pf)
 
 
 def test_project_missing_properties(tmpdir):
@@ -61,4 +61,4 @@ def test_project_missing_properties(tmpdir):
     os.mkdir(pf)
 
     with pytest.raises(ValueError):
-        sut = Project(pf)
+        Project(pf)

@@ -2,13 +2,9 @@ import os
 import sys
 from .canvas import Canvas
 from .layout import Layout
-from .palette import Palette
-from .project import Project
-from PIL import Image
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (QColor, QPainter, QPen, QBrush, QPixmap, QImage,
-                         QPalette)
+from PyQt5.QtGui import (QColor, QPainter, QPen, QBrush, QPixmap)
 from PyQt5.QtWidgets import QApplication
 
 

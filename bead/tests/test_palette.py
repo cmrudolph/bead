@@ -110,7 +110,7 @@ def test_closest_color_transparent():
 def create_sut(name_whitelist=None):
     black = Color('16', 'BLK', 'Black', '#343234', '#343234', '#343234')
     white = Color('02', 'WHT', 'White', '#f7f7f2', '#f7f7f2', '#f7f7f2')
-    red = Color('42', 'RED', 'Red', '#c43a44',  '#c43a44', '#c43a44')
+    red = Color('42', 'RED', 'Red', '#c43a44', '#c43a44', '#c43a44')
     green = Color('17', 'PGR', 'Parrot Green', '#00968a', '#00968a', '#00968a')
     blue = Color('29', 'CBT', 'Cobalt', '#0066b3', '#0066b3', '#0066b3')
     return Palette([black, white, red, green, blue], name_whitelist)
@@ -125,4 +125,4 @@ def create_pseudo_file(raw_txt):
 
 
 def hex_to_rgb(hex):
-    return tuple(int(hex[i:i+2], 16) for i in (1, 3, 5))
+    return tuple(int(hex[i:i + 2], 16) for i in (1, 3, 5))

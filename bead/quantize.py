@@ -1,4 +1,3 @@
-import numpy as np
 import os
 from skimage import io
 from sklearn.cluster import KMeans

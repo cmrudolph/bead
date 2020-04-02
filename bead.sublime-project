@@ -1,19 +1,33 @@
 {
-    "folders":
-    [
-        {
-            "path": ".",
-            "folder_exclude_patterns":
-            [
-                "__pycache__",
-                ".pytest_cache",
-                "env"
-            ],
-            "file_exclude_patterns":
-            [
-                "*.sublime-project",
-                ".coverage"
-            ]
-        }
-    ]
+	"build_systems":
+	[
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "\"c:\\chris\\code\\bead\\env/scripts/python\" -u \"$file\""
+		}
+	],
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.sublime-project",
+				".coverage"
+			],
+			"folder_exclude_patterns":
+			[
+				"__pycache__",
+				".pytest_cache",
+				"env"
+			],
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"python_interpreter": "$VIRTUAL_ENV/scripts/python",
+		"test_command": "python -m pytest"
+	}
 }

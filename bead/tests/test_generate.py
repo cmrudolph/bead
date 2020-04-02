@@ -1,7 +1,6 @@
 from . import utils
-from bead import Project, generate_layout
+from bead import generate_layout
 import filecmp
-import os
 import pytest
 
 

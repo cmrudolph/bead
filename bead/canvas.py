@@ -1,6 +1,3 @@
-from .layout import Layout
-
-
 class Rectangle():
     def __init__(self, x, y, width, height):
         self._topleft = (x, y)

@@ -1,7 +1,6 @@
 from . import utils
-from bead import Layout, Project, export_layout
+from bead import Layout, export_layout
 import filecmp
-import os
 import pytest
 
 
@@ -44,7 +43,7 @@ def test_export_missing_input(tmpdir):
 def test_export_width_mismatch(tmpdir):
     p = utils.create_project(tmpdir, 'p', 2, 2)
     with open(p.layout_path, 'w') as f:
-        layout = Layout.create_new(f, 1, 2)
+        Layout.create_new(f, 1, 2)
 
     with pytest.raises(ValueError):
         export_layout(p)
@@ -53,7 +52,7 @@ def test_export_width_mismatch(tmpdir):
 def test_export_height_mismatch(tmpdir):
     p = utils.create_project(tmpdir, 'p', 2, 2)
     with open(p.layout_path, 'w') as f:
-        layout = Layout.create_new(f, 2, 1)
+        Layout.create_new(f, 2, 1)
 
     with pytest.raises(ValueError):
         export_layout(p)

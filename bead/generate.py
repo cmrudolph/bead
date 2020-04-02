@@ -1,6 +1,5 @@
 import os
 from .layout import Layout
-from .palette import Palette
 from collections import Counter
 from PIL import Image
 
