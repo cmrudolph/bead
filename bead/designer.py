@@ -8,7 +8,7 @@ from PyQt5.QtGui import (QColor, QPainter, QPen, QBrush, QPixmap)
 from PyQt5.QtWidgets import QApplication
 
 
-CELL_SIZE = 25
+CELL_SIZE = 29
 PALETTE_BTN_SIZE = 20
 
 
@@ -47,10 +47,10 @@ class BeadPixmap(QPixmap):
         painter = QPainter(self)
         painter.setPen(QPen(Qt.black, 1))
 
-        for r in self._bead_canvas.rectangles:
-            x = r.topleft[0]
-            y = r.topleft[1]
-            painter.drawRect(x, y, r.width, r.height)
+        for line in self._bead_canvas.lines:
+            p1 = line.point1
+            p2 = line.point2
+            painter.drawLine(p1[0], p1[1], p2[0], p2[1])
         painter.end()
 
     def _render_beads(self):

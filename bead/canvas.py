@@ -1,25 +1,15 @@
-class Rectangle():
-    def __init__(self, x, y, width, height):
-        self._topleft = (x, y)
-        self._bottomright = (x + width, y + height)
-        self._width = width
-        self._height = height
+class Line():
+    def __init__(self, point1, point2):
+        self._point1 = point1
+        self._point2 = point2
 
     @property
-    def topleft(self):
-        return self._topleft
+    def point1(self):
+        return self._point1
 
     @property
-    def bottomright(self):
-        return self._bottomright
-
-    @property
-    def width(self):
-        return self._width
-
-    @property
-    def height(self):
-        return self._height
+    def point2(self):
+        return self._point2
 
 
 class Circle():
@@ -56,8 +46,8 @@ class Canvas():
         self._layout = layout
         self._palette = palette
         self._cell_size = cell_size
-        self._pixel_width = layout.width * cell_size
-        self._pixel_height = layout.height * cell_size
+        self._pixel_width = layout.width * cell_size + (layout.width - 1)
+        self._pixel_height = layout.height * cell_size + (layout.height - 1)
         self._derive_shapes()
 
     @property
@@ -65,8 +55,8 @@ class Canvas():
         return self._layout
 
     @property
-    def rectangles(self):
-        return self._rectangles
+    def lines(self):
+        return self._lines
 
     @property
     def circles(self):
@@ -102,9 +92,9 @@ class Canvas():
 
     def _calculate_layout_coordinates(self, pixel_x, pixel_y):
         # Clicked on an edge. Ambiguous, so take no action.
-        if pixel_x == 0 or pixel_x % self._cell_size == 0:
+        if pixel_x > 0 and pixel_x % self._cell_size == 0:
             return None
-        if pixel_y == 0 or pixel_y % self._cell_size == 0:
+        if pixel_y > 0 and pixel_y % self._cell_size == 0:
             return None
 
         # X and Y in the layout are in terms of cells (beads), not pixels
@@ -114,26 +104,28 @@ class Canvas():
         return (layout_x, layout_y)
 
     def _derive_shapes(self):
-        self._derive_rectangles()
+        self._derive_lines()
         self._derive_circles()
 
-    def _derive_rectangles(self):
-        self._rectangles = []
-        for i in range(self._layout.width):
-            for j in range(self._layout.height):
-                rect_width = self._cell_size
-                rect_height = self._cell_size
+    def _derive_lines(self):
+        self._lines = []
+        cell_size = self._cell_size
 
-                if i == (self._layout.width - 1):
-                    rect_width -= 1
-                if j == (self._layout.height - 1):
-                    rect_height -= 1
+        # Insert columns of consistent pixels at all the relevant steps along
+        # the way (step = dividing line between neighboring beads)
+        pw = self._pixel_width
+        for x in range(cell_size, pw - cell_size, cell_size + 1):
+            point1 = (x, 0)
+            point2 = (x, self.height)
+            self._lines.append(Line(point1, point2))
 
-                x = i * self._cell_size
-                y = j * self._cell_size
-
-                rect = Rectangle(x, y, rect_width, rect_height)
-                self._rectangles.append(rect)
+        # Insert rows of consistent pixels at all the relevant steps along the
+        # way (step = dividing line between neighboring beads)
+        ph = self._pixel_height
+        for y in range(cell_size, ph - cell_size, cell_size + 1):
+            point1 = (0, y)
+            point2 = (self.width, y)
+            self._lines.append(Line(point1, point2))
 
     def _derive_circles(self):
         self._circles = []
@@ -152,9 +144,9 @@ class Canvas():
 
                 # Include an offset + some padding so the circles do not go
                 # all the way to the grid edges (breathing room)
-                x = (i * self._cell_size) + 2
-                y = (j * self._cell_size) + 2
-                diameter = self._cell_size - 4
+                x = (i * (self._cell_size + 1)) + 1
+                y = (j * (self._cell_size + 1)) + 1
+                diameter = self._cell_size - 3
 
                 circle = Circle(x, y, diameter, fill_color, edge_color)
                 self._circles.append(circle)

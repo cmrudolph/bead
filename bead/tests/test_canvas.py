@@ -2,24 +2,28 @@ from bead import Canvas, Color, Layout, Palette
 from io import StringIO
 
 
-def test_rectangles():
+def test_lines():
     f = create_pseudo_file('')
-    layout = Layout.create_new(f, 1, 2)
-    sut = create_sut(layout, 4)
+    layout = Layout.create_new(f, 2, 3)
+    sut = create_sut(layout, 5)
 
-    assert len(sut.rectangles) == 2
+    print()
+    for line in sut.lines:
+        print(f'({line.point1}) -> {line.point2}')
 
-    r1 = sut.rectangles[0]
-    assert r1.topleft == (0, 0)
-    assert r1.bottomright == (3, 4)
-    assert r1.width == 3
-    assert r1.height == 4
+    assert len(sut.lines) == 3
 
-    r2 = sut.rectangles[1]
-    assert r2.topleft == (0, 4)
-    assert r2.bottomright == (3, 7)
-    assert r2.width == 3
-    assert r2.height == 3
+    line1 = sut.lines[0]
+    assert line1.point1 == (5, 0)
+    assert line1.point2 == (5, 17)
+
+    line2 = sut.lines[1]
+    assert line2.point1 == (0, 5)
+    assert line2.point2 == (11, 5)
+
+    line3 = sut.lines[2]
+    assert line3.point1 == (0, 11)
+    assert line3.point2 == (11, 11)
 
 
 def test_circles():
@@ -27,32 +31,48 @@ def test_circles():
     layout = Layout.create_new(f, 1, 3)
     layout.set_value(0, 0, 'RED')
     layout.set_value(0, 2, 'BLU')
-    sut = create_sut(layout, 10)
+    sut = create_sut(layout, 9)
 
     assert len(sut.circles) == 2
 
     c1 = sut.circles[0]
-    assert c1.topleft == (2, 2)
-    assert c1.bottomright == (8, 8)
+    assert c1.topleft == (1, 1)
+    assert c1.bottomright == (7, 7)
     assert c1.diameter == 6
     assert c1.fill_color == '#222222'
     assert c1.edge_color == '#333333'
 
     c2 = sut.circles[1]
-    assert c2.topleft == (2, 22)
-    assert c2.bottomright == (8, 28)
+    assert c2.topleft == (1, 21)
+    assert c2.bottomright == (7, 27)
     assert c2.diameter == 6
     assert c2.fill_color == '#555555'
     assert c2.edge_color == '#666666'
 
 
+def test_height():
+    f = create_pseudo_file('')
+    layout = Layout.create_new(f, 2, 3)
+    sut = create_sut(layout, 5)
+
+    assert sut.height == 17
+
+
+def test_width():
+    f = create_pseudo_file('')
+    layout = Layout.create_new(f, 2, 3)
+    sut = create_sut(layout, 5)
+
+    assert sut.width == 11
+
+
 def test_try_set_edge():
     f = create_pseudo_file('')
-    layout = Layout.create_new(f, 1, 3)
-    sut = create_sut(layout, 10)
+    layout = Layout.create_new(f, 2, 3)
+    sut = create_sut(layout, 9)
 
-    sut.try_set(0, 1, 'RED')
-    sut.try_set(0, 10, 'RED')
+    sut.try_set(9, 0, 'RED')
+    sut.try_set(0, 9, 'RED')
 
     assert len(sut.circles) == 0
 
@@ -60,9 +80,9 @@ def test_try_set_edge():
 def test_try_set_valid():
     f = create_pseudo_file('')
     layout = Layout.create_new(f, 1, 3)
-    sut = create_sut(layout, 10)
+    sut = create_sut(layout, 9)
 
-    sut.try_set(1, 1, 'RED')
+    sut.try_set(0, 0, 'RED')
 
     assert len(sut.circles) == 1
 
@@ -74,7 +94,7 @@ def test_try_set_valid():
 def test_try_set_overwrite():
     f = create_pseudo_file('')
     layout = Layout.create_new(f, 1, 3)
-    sut = create_sut(layout, 10)
+    sut = create_sut(layout, 9)
 
     sut.try_set(1, 1, 'RED')
     sut.try_set(1, 1, 'WHT')
@@ -90,9 +110,9 @@ def test_try_clear_edge():
     f = create_pseudo_file('')
     layout = Layout.create_new(f, 1, 3)
     layout.set_value(0, 0, 'RED')
-    sut = create_sut(layout, 10)
+    sut = create_sut(layout, 9)
 
-    sut.try_clear(1, 0)
+    sut.try_clear(9, 0)
 
     assert len(sut.circles) == 1
 
@@ -105,9 +125,9 @@ def test_try_clear_valid():
     f = create_pseudo_file('')
     layout = Layout.create_new(f, 1, 3)
     layout.set_value(0, 0, 'RED')
-    sut = create_sut(layout, 10)
+    sut = create_sut(layout, 9)
 
-    sut.try_clear(1, 1)
+    sut.try_clear(0, 0)
 
     assert len(sut.circles) == 0
 
@@ -116,7 +136,7 @@ def test_layout():
     f = create_pseudo_file('')
     layout = Layout.create_new(f, 1, 3)
     layout.set_value(0, 0, 'RED')
-    sut = create_sut(layout, 10)
+    sut = create_sut(layout, 9)
 
     assert sut.layout.get_value(0, 0) == 'RED'
 

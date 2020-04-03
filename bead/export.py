@@ -4,7 +4,7 @@ from .layout import Layout
 from PIL import Image, ImageDraw
 
 
-CELL_SIZE = 30
+CELL_SIZE = 29
 
 
 def export_layout(project):
@@ -45,8 +45,8 @@ def export_layout(project):
 
 
 def _render_grid(draw, canvas):
-    for r in canvas.rectangles:
-        draw.rectangle((r.topleft, r.bottomright), outline='black')
+    for line in canvas.lines:
+        draw.line([line.point1, line.point2], width=1, fill='black')
 
 
 def _render_beads(draw, canvas):
