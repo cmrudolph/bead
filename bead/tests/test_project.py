@@ -12,7 +12,12 @@ def test_project_valid(tmpdir):
     assert sut.name == name
     assert sut.properties.width == 29
     assert sut.palette.color_from_code('WHT').name == 'White'
-    assert len(sut.palette.colors) == 39
+    assert len(sut.palette.colors) == 43
+
+    assert name in sut.project_dir
+
+    assert name in sut.properties_path
+    assert 'properties.json' in sut.properties_path
 
     assert name in sut.orig_path
     assert 'original.png' in sut.orig_path
@@ -30,7 +35,7 @@ def test_project_valid(tmpdir):
     assert 'layout.txt' in sut.layout_path
 
     assert name in sut.final_path
-    assert 'final.png' in sut.final_path
+    assert 'p888_29_26.png' in sut.final_path
 
 
 def test_project_filtered_colors(tmpdir):

@@ -3,6 +3,10 @@ from .properties import Properties
 from pathlib import Path
 import os
 
+PROPS_FILE = 'properties.json'
+ORIG_FILE = 'original.png'
+LAYOUT_FILE = 'layout.txt'
+
 
 class Project:
     def __init__(self, project_dir):
@@ -15,10 +19,10 @@ class Project:
 
         # A properties file is a requirement of instantiating a project
         # instance.
-        props_path = os.path.join(project_dir, 'properties.json')
-        if not os.path.exists(props_path):
-            raise ValueError(f'File {props_path} must exist')
-        with open(props_path, 'r') as f:
+        self._properties_path = os.path.join(project_dir, PROPS_FILE)
+        if not os.path.exists(self._properties_path):
+            raise ValueError(f'File {self._properties_path} must exist')
+        with open(self._properties_path, 'r') as f:
             props_txt = f.read()
             self._properties = Properties.from_json(props_txt)
 
@@ -43,8 +47,16 @@ class Project:
         return self._properties
 
     @property
+    def project_dir(self):
+        return self._project_dir
+
+    @property
+    def properties_path(self):
+        return self._properties_path
+
+    @property
     def orig_path(self):
-        return os.path.join(self._project_dir, 'original.png')
+        return os.path.join(self._project_dir, ORIG_FILE)
 
     @property
     def gridified_path(self):
@@ -60,8 +72,18 @@ class Project:
 
     @property
     def layout_path(self):
-        return os.path.join(self._project_dir, 'layout.txt')
+        return os.path.join(self._project_dir, LAYOUT_FILE)
+
+    def get_transient_files(self):
+        safe = [PROPS_FILE, ORIG_FILE, LAYOUT_FILE]
+        files = os.listdir(self._project_dir)
+        for f in files:
+            if f not in safe:
+                yield os.path.join(self._project_dir, f)
 
     @property
     def final_path(self):
-        return os.path.join(self._project_dir, 'final.png')
+        w = self._properties.width
+        h = self._properties.height
+        filename = f'{self._name}_{w}_{h}.png'
+        return os.path.join(self._project_dir, filename)

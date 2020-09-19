@@ -1,4 +1,5 @@
 from .canvas import Canvas
+from .clean import clean_project
 from .color import Color
 from .designer import design_layout
 from .export import export_layout
