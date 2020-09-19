@@ -98,8 +98,8 @@ class Canvas():
             return None
 
         # X and Y in the layout are in terms of cells (beads), not pixels
-        layout_x = pixel_x // self._cell_size
-        layout_y = pixel_y // self._cell_size
+        layout_x = pixel_x // (self._cell_size + 1)
+        layout_y = pixel_y // (self._cell_size + 1)
 
         return (layout_x, layout_y)
 

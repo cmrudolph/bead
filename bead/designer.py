@@ -8,17 +8,27 @@ from PyQt5.QtGui import (QColor, QPainter, QPen, QBrush, QPixmap)
 from PyQt5.QtWidgets import QApplication
 
 
-CELL_SIZE = 29
+CELL_SIZE = 25
 PALETTE_BTN_SIZE = 20
 
 
 def design_layout(project):
-    with open(project.layout_path, 'r+') as f:
-        layout = Layout.load_from_file(f)
-        app = QApplication(sys.argv)
-        window = MainWindow(project, layout)
-        window.show()
-        app.exec_()
+    if os.path.exists(project.layout_path):
+        with open(project.layout_path, 'r+') as f:
+            layout = Layout.load_from_file(f)
+            app = QApplication(sys.argv)
+            window = MainWindow(project, layout)
+            window.show()
+            app.exec_()
+    else:
+        with open(project.layout_path, 'w') as f:
+            w = project.properties.width
+            h = project.properties.height
+            layout = Layout.create_new(f, w, h)
+            app = QApplication(sys.argv)
+            window = MainWindow(project, layout)
+            window.show()
+            app.exec_()
 
 
 class BeadPixmap(QPixmap):
@@ -27,18 +37,16 @@ class BeadPixmap(QPixmap):
         self._layout = layout
         self._bead_canvas = Canvas(layout, project.palette, cell_size)
 
-        pixel_width = layout.width * cell_size
-        pixel_height = layout.height * cell_size
+        # if os.path.exists(project.partitioned_path):
+        #     # If a partitioned file exists, assume we want the designer to
+        #     # use said image as the background. This makes bead placement
+        #     # easier since an image will be visible.
+        #     super().__init__(project.partitioned_path)
+        # else:
 
-        if os.path.exists(project.partitioned_path):
-            # If a partitioned file exists, assume we want the designer to
-            # use said image as the background. This makes bead placement
-            # easier since an image will be visible.
-            super().__init__(project.partitioned_path)
-        else:
-            # Default = just render a white background
-            super().__init__(pixel_width, pixel_height)
-            self.fill(Qt.white)
+        # Default = just render a white background
+        super().__init__(self._bead_canvas.width, self._bead_canvas.height)
+        self.fill(Qt.white)
 
         self._render_grid()
         self._render_beads()
@@ -78,11 +86,8 @@ class DesignerCanvas(QtWidgets.QLabel):
         self._layout = layout
         self._bead_canvas = Canvas(layout, project.palette, CELL_SIZE)
 
-        canvas_width = layout.width * CELL_SIZE
-        canvas_height = layout.height * CELL_SIZE
-
-        self.setMaximumWidth(canvas_width)
-        self.setMaximumHeight(canvas_height)
+        self.setMaximumWidth(self._bead_canvas.width)
+        self.setMaximumHeight(self._bead_canvas.height)
         self._render_from_layout()
 
     def set_color(self, color):
